@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 //Pages
 import '../pages/chats_page.dart';
-import '../pages/rank_page.dart';
-import '../pages/schedule_page.dart';
+import 'search_page.dart';
+import 'esports_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,9 +16,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentPage = 0;
   final List<Widget> _pages = [
+    Esports(),
     ChatsPage(),
-    UsersPage(),
-    QrPage(),
+    SearchPage(),
   ];
 
   @override
@@ -38,9 +38,9 @@ class _HomePageState extends State<HomePage> {
         },
         items: [
           BottomNavigationBarItem(
-            label: "Rank",
+            label: "Esports",
             icon: Icon(
-              Icons.stacked_bar_chart,
+              Icons.sports_esports,
             ),
           ),
           BottomNavigationBarItem(
@@ -50,9 +50,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Schedule",
+            label: "Search",
             icon: Icon(
-              Icons.calendar_month,
+              Icons.search,
             ),
           ),
         ],

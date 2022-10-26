@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get_it/get_it.dart';
 
-class UsersPage extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _UsersPageState();
+    return _SearchPageState();
   }
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return _buildUI();
