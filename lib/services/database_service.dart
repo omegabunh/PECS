@@ -10,14 +10,11 @@ class DatabaseService {
 
   DatabaseService() {}
 
-  Future<void> createUser(
-      String _uid, String _email, String _name, String _imageURL) async {
+  Future<void> createUser(String _uid, String _email, String _name) async {
     try {
       await _db.collection(USER_COLLECTION).doc(_uid).set(
         {
           "email": _email,
-          "image": _imageURL,
-          "last_active": DateTime.now().toUtc(),
           "name": _name,
         },
       );
@@ -30,15 +27,13 @@ class DatabaseService {
     return _db.collection(USER_COLLECTION).doc(_uid).get();
   }
 
-  Future<void> updateUserLastSeenTime(String _uid) async {
-    try {
-      await _db.collection(USER_COLLECTION).doc(_uid).update(
-        {
-          "last_active": DateTime.now().toUtc(),
-        },
-      );
-    } catch (e) {
-      print(e);
+  Future<QuerySnapshot> getUsers({String? name}) {
+    Query _query = _db.collection(USER_COLLECTION);
+    if (name != null) {
+      _query = _query
+          .where("name", isGreaterThanOrEqualTo: name)
+          .where("name", isLessThanOrEqualTo: name + "z");
     }
+    return _query.get();
   }
 }
