@@ -54,10 +54,10 @@ class MainApp extends StatelessWidget {
             title: 'EsportsCAL',
             theme: themeNotifier.isDark ? darkThemeData : lightThemeData,
             navigatorKey: NavigationService.navigatorKey,
-            initialRoute: '/home',
+            initialRoute: '/login',
             routes: {
-              // '/login': (BuildContext _context) => const LoginPage(),
-              // '/register': (BuildContext _context) => RegisterPage(),
+              '/login': (BuildContext _context) => const LoginPage(),
+              '/register': (BuildContext _context) => RegisterPage(),
               '/home': (BuildContext _context) => HomePage(),
             },
             debugShowCheckedModeBanner: false,

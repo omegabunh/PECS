@@ -23,6 +23,19 @@ class DatabaseService {
     }
   }
 
+  Future<void> updateUser(String _uid, String _email, String _name) async {
+    try {
+      await _db.collection(USER_COLLECTION).doc(_uid).set(
+        {
+          "email": _email,
+          "name": _name,
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<DocumentSnapshot> getUser(String _uid) {
     return _db.collection(USER_COLLECTION).doc(_uid).get();
   }
@@ -35,5 +48,22 @@ class DatabaseService {
           .where("name", isLessThanOrEqualTo: name + "z");
     }
     return _query.get();
+  }
+
+  Stream<QuerySnapshot> getChatsForUser(String _uid) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .where('members', arrayContains: _uid)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> getLastMessageForChat(String _chatID) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatID)
+        .collection(MESSAGES_COLLECTION)
+        .orderBy("sent_time", descending: true)
+        .limit(1)
+        .get();
   }
 }

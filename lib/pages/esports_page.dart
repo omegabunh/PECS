@@ -7,14 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class Esports extends StatefulWidget {
+class EsportsPage extends StatefulWidget {
+  const EsportsPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _EsportsState();
+    return _EsportsPageState();
   }
 }
 
-class _EsportsState extends State<Esports> {
+class _EsportsPageState extends State<EsportsPage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -46,9 +48,9 @@ class _EsportsState extends State<Esports> {
               return WebView(
                 initialUrl: 'https://www.pubgesports.com/',
                 javascriptMode: JavascriptMode.unrestricted,
-                // onWebViewCreated: (WebViewController webViewController) {
-                //   _controller.complete(webViewController);
-                // },
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller.complete(webViewController);
+                },
               );
             },
           ),

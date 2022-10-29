@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 //Services
-import '../services/media_service.dart';
 import '../services/database_service.dart';
 import '../services/cloud_storage_service.dart';
 import '../services/navigation_service.dart';

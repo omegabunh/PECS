@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 
 //Pages
 import '../pages/chats_page.dart';
-import 'search_page.dart';
-import 'esports_page.dart';
+import '../pages/search_page.dart';
+import '../pages/esports_page.dart';
+import '../pages/user_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -15,10 +18,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentPage = 0;
+
   final List<Widget> _pages = [
-    Esports(),
+    EsportsPage(),
     ChatsPage(),
     SearchPage(),
+    ProfilePage(),
   ];
 
   @override
@@ -30,11 +35,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _pages[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentPage,
         onTap: (_index) {
-          setState(() {
-            _currentPage = _index;
-          });
+          setState(
+            () {
+              _currentPage = _index;
+            },
+          );
         },
         items: [
           BottomNavigationBarItem(
@@ -53,6 +61,12 @@ class _HomePageState extends State<HomePage> {
             label: "Search",
             icon: Icon(
               Icons.search,
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Profile",
+            icon: Icon(
+              Icons.person_rounded,
             ),
           ),
         ],
