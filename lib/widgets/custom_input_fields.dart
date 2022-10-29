@@ -22,24 +22,28 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onSaved: (_value) => onSaved(_value!),
-      cursorColor: Colors.white,
-      style: const TextStyle(color: Colors.white),
-      obscureText: obscureText,
-      validator: (_value) {
-        return RegExp(regEx).hasMatch(_value!) ? null : message;
-      },
-      keyboardType: type,
-      decoration: InputDecoration(
-        fillColor: const Color.fromRGBO(64, 127, 104, 1.0),
-        filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide.none,
+    return Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(15.0),
+      child: TextFormField(
+        onSaved: (_value) => onSaved(_value!),
+        //cursorColor: Colors.black87,
+        //style: const TextStyle(color: Colors.black87),
+        obscureText: obscureText,
+        validator: (_value) {
+          return RegExp(regEx).hasMatch(_value!) ? null : message;
+        },
+        keyboardType: type,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(18.0),
+          //fillColor: const Color(0xFFF5F6F9),
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          hintText: hintText,
+          //hintStyle: const TextStyle(color: Colors.black54),
         ),
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white54),
       ),
     );
   }
@@ -73,7 +77,7 @@ class CustomTextField extends StatelessWidget {
         fillColor: const Color.fromRGBO(30, 29, 37, 0.1),
         filled: true,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(15.0),
           borderSide: BorderSide.none,
         ),
         hintText: hintText,

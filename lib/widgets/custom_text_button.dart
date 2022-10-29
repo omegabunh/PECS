@@ -23,7 +23,7 @@ class CustomTextButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFF5F6F9),
+              backgroundColor: const Color(0xFFF5F6F9),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
             ),
@@ -37,7 +37,7 @@ class CustomTextButton extends StatelessWidget {
                 Expanded(
                   child: Text(
                     text,
-                    style: TextStyle(color: Colors.black54),
+                    style: const TextStyle(color: Colors.black54),
                   ),
                 ),
                 rightIcon,

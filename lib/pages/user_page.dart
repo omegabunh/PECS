@@ -21,19 +21,19 @@ import '../widgets/top_bar.dart';
 import '../providers/authentication_provider.dart';
 
 //Pages
-import '../pages/login_page.dart';
-import '../pages/register_page.dart';
+import '../pages/profile_page.dart';
+import '../pages/setting_page.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class UserPage extends StatefulWidget {
+  const UserPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfilePageState();
+    return _UserPageState();
   }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _UserPageState extends State<UserPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
@@ -76,11 +76,10 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               TopBar(
-                'Profile',
+                'User',
                 primaryAction: IconButton(
                   icon: const Icon(
                     Icons.logout,
-                    color: Colors.black87,
                   ),
                   onPressed: () {
                     _auth.logout();
@@ -108,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                     _context,
                     MaterialPageRoute(
-                      builder: (_context) => RegisterPage(),
+                      builder: (_context) => ProfilePage(),
                     ),
                   );
                 },
@@ -125,7 +124,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               CustomTextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    _context,
+                    MaterialPageRoute(
+                      builder: (_context) => SettingPage(),
+                    ),
+                  );
+                },
                 text: "설정",
                 leftIcon: Icon(
                   Icons.settings,

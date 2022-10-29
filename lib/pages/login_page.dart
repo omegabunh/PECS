@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text(
         'EsportsCAL',
         style: TextStyle(
-          color: Colors.white,
+          color: const Color.fromRGBO(64, 127, 104, 1.0),
           fontSize: 40,
           fontWeight: FontWeight.w600,
         ),
@@ -112,8 +112,11 @@ class _LoginPageState extends State<LoginPage> {
                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`₩{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
               hintText: 'Email',
               obscureText: false,
-              message: '이메일 항목을 입력해주십시요.',
+              message: '이메일을 입력해주십시요.',
               type: TextInputType.emailAddress,
+            ),
+            SizedBox(
+              height: 5,
             ),
             CustomTextFormField(
               onSaved: (_value) {
@@ -154,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text(
         '회원가입',
         style: TextStyle(
-          color: Colors.white,
+          color: const Color.fromRGBO(64, 127, 104, 1.0),
         ),
       ),
     );

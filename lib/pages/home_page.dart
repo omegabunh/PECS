@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     EsportsPage(),
     ChatsPage(),
     SearchPage(),
-    ProfilePage(),
+    UserPage(),
   ];
 
   @override
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Profile",
+            label: "User",
             icon: Icon(
               Icons.person_rounded,
             ),
