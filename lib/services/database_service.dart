@@ -1,6 +1,9 @@
 //Packages
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//Models
+import '../models/chat_message.dart';
+
 const String USER_COLLECTION = "Users";
 const String CHAT_COLLECTION = "Chats";
 const String MESSAGES_COLLECTION = "Messages";
@@ -50,6 +53,20 @@ class DatabaseService {
     return _query.get();
   }
 
+  // Future<QuerySnapshot> getChatRoom({String? roomName}) {
+  //   Query _query = _db.collection(CHAT_COLLECTION);
+  //   if (roomName != null) {
+  //     _query = _query
+  //         .where("roomName", isGreaterThanOrEqualTo: roomName)
+  //         .where("roomName", isLessThanOrEqualTo: roomName + "z");
+  //   }
+  //   return _query.get();
+  // }
+
+  Future<DocumentSnapshot> getChatRoom(String _uid) {
+    return _db.collection(CHAT_COLLECTION).doc(_uid).get();
+  }
+
   Stream<QuerySnapshot> getChatsForUser(String _uid) {
     return _db
         .collection(CHAT_COLLECTION)
@@ -65,5 +82,36 @@ class DatabaseService {
         .orderBy("sent_time", descending: true)
         .limit(1)
         .get();
+  }
+
+  Stream<QuerySnapshot> streamMessagesForChat(String _chatID) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatID)
+        .collection(MESSAGES_COLLECTION)
+        .orderBy("sent_time", descending: false)
+        .snapshots();
+  }
+
+  Future<void> addMessageToChat(String _chatID, ChatMessage _message) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatID)
+          .collection(MESSAGES_COLLECTION)
+          .add(
+            _message.toJson(),
+          );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteChat(String _chatID) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_chatID).delete();
+    } catch (e) {
+      print(e);
+    }
   }
 }

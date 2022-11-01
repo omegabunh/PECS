@@ -11,7 +11,7 @@ import '../providers/chats_page_provider.dart';
 import '../services/navigation_service.dart';
 
 //Pages
-//import '../pages/chat_page.dart';
+import '../pages/chat_page.dart';
 
 //Widgets
 import '../widgets/top_bar.dart';
@@ -21,6 +21,8 @@ import '../widgets/custom_list_view_tiles.dart';
 import '../models/chat.dart';
 import '../models/chat_user.dart';
 import '../models/chat_message.dart';
+import '../models/chat_room.dart';
+import '../widgets/rounded_button.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({Key? key}) : super(key: key);
@@ -89,33 +91,44 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _chatList() {
-    List<Chat>? _chats = _pageProvider.chats;
-    return Expanded(
-      child: (() {
-        if (_chats != null) {
-          if (_chats.isNotEmpty) {
-            return ListView.builder(
-              itemCount: _chats.length,
-              itemBuilder: (BuildContext _context, int _index) {
-                return _chatTile(_chats[_index]);
-              },
-            );
-          } else {
-            return const Center(
-              child: Text(
-                "채팅을 찾을 수 없음.",
-                style: TextStyle(color: Colors.black87),
-              ),
-            );
-          }
+    List<Chat>? _rooms = _pageProvider.chats;
+    return Expanded(child: () {
+      if (_rooms != null) {
+        if (_rooms.isNotEmpty) {
+          return ListView.builder(
+            itemCount: _rooms.length,
+            itemBuilder: (BuildContext _context, int _index) {
+              return _chatTile(_rooms[_index]);
+            },
+          );
         } else {
           return const Center(
-            child: CircularProgressIndicator.adaptive(),
+            child: Text(
+              "대화방을 찾을 수 없습니다.",
+            ),
           );
         }
-      })(),
-    );
+      } else {
+        return const Center(
+          child: CircularProgressIndicator.adaptive(),
+        );
+      }
+    }());
   }
+
+  // Widget _createChatButton() {
+  //   return Visibility(
+  //     visible: _pageProvider.selectedUsers.isNotEmpty,
+  //     child: RoundedButton(
+  //       name: _pageProvider.selectedUsers.length == 1 ? "1:1 채팅" : "그룹 채팅",
+  //       height: _deviceHeight * 0.08,
+  //       width: _deviceWidth * 0.80,
+  //       onPressed: () {
+  //         _pageProvider.createChat();
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _chatTile(Chat _chat) {
     List<ChatUser> _recepients = _chat.recepients();
@@ -128,14 +141,11 @@ class _ChatsPageState extends State<ChatsPage> {
     return CustomListViewTileWithActivity(
         height: _deviceHeight * 0.10,
         title: _chat.title(),
-        // subtitle: _subtitleText,
-        // imagePath: _chat.imageURL(),
-        // isActive: _isActive,
-        // isActivity: _chat.activity,
+        subtitle: _subtitleText,
         onTap: () {
-          // _navigation.navigateToPage(
-          //   ChatPage(chat: _chat),
-          // );
+          _navigation.navigateToPage(
+            ChatPage(chat: _chat),
+          );
         });
   }
 }

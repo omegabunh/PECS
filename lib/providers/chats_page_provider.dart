@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Services
 import '../services/database_service.dart';
+import '../services/navigation_service.dart';
 
 //Providers
 import '../providers/authentication_provider.dart';
@@ -17,11 +18,19 @@ import '../providers/authentication_provider.dart';
 import '../models/chat.dart';
 import '../models/chat_message.dart';
 import '../models/chat_user.dart';
+import '../models/chat_room.dart';
 
 class ChatsPageProvider extends ChangeNotifier {
   final AuthenticationProvider _auth;
 
   late DatabaseService _db;
+  // late NavigationService _navigation;
+  // List<ChatRoom>? chats;
+  // late List<ChatRoom> _selectedRoom;
+
+  // List<ChatRoom> get selectedUsers {
+  //   return _selectedRoom;
+  // }
 
   List<Chat>? chats;
 
@@ -29,6 +38,8 @@ class ChatsPageProvider extends ChangeNotifier {
 
   ChatsPageProvider(this._auth) {
     _db = GetIt.instance.get<DatabaseService>();
+    // _selectedRoom = [];
+    // _navigation = GetIt.instance.get<NavigationService>();
     getChats();
   }
 
@@ -38,7 +49,39 @@ class ChatsPageProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  void getChats() async {
+  // void getChats({String? roomName}) async {
+  //   _selectedRoom = [];
+  //   try {
+  //     _db.getChatRoom(roomName: roomName).then(
+  //       (_snapshot) {
+  //         chats = _snapshot.docs
+  //             .map((_doc) {
+  //               Map<String, dynamic> _data =
+  //                   _doc.data() as Map<String, dynamic>;
+  //               _data["uid"] = _doc.id;
+  //               return ChatRoom.fromJSON(_data);
+  //             })
+  //             .cast<ChatRoom>()
+  //             .toList();
+  //         notifyListeners();
+  //       },
+  //     );
+  //   } catch (e) {
+  //     print("채팅을 가져오는데 문제가 발생하였습니다.");
+  //     print(e);
+  //   }
+  // }
+
+  // void updateSelectedRoom(ChatRoom _room) {
+  //   if (_selectedRoom.contains(_room)) {
+  //     _selectedRoom.remove(_room);
+  //   } else {
+  //     _selectedRoom.add(_room);
+  //   }
+  //   notifyListeners();
+  // }
+
+  void getChats({String? roomName}) async {
     try {
       _chatsStream =
           _db.getChatsForUser(_auth.user.uid).listen((_snapshot) async {
@@ -68,13 +111,22 @@ class ChatsPageProvider extends ChangeNotifier {
                 ChatMessage _message = ChatMessage.fromJSON(_messageData);
                 _messages.add(_message);
               }
+
+              List<ChatRoom> _rooms = [];
+              DocumentSnapshot<Object?> _roomName =
+                  await _db.getChatRoom(_d.id);
+              Map<String, dynamic> _data = _d.data() as Map<String, dynamic>;
+              _data["uid"] = _d.id;
+              ChatRoom _room = ChatRoom.fromJSON(_data);
+              _rooms.add(_room);
+
               //Return Chat Instance
               return Chat(
                 uid: _d.id,
                 currentUserUid: _auth.user.uid,
                 members: _members,
                 messages: _messages,
-                roomName: _chatData["roomName"],
+                roomName: _room.roomName,
               );
             },
           ).toList(),

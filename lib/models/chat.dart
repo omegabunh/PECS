@@ -1,5 +1,6 @@
 import '../models/chat_user.dart';
 import '../models/chat_message.dart';
+import '../models/chat_room.dart';
 
 class Chat {
   final String uid;

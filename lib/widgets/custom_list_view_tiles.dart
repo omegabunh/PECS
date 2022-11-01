@@ -40,7 +40,6 @@ class CustomListViewTile extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.white,
           fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
@@ -48,7 +47,6 @@ class CustomListViewTile extends StatelessWidget {
       subtitle: Text(
         subtitle,
         style: const TextStyle(
-          color: Colors.white54,
           fontSize: 12,
           fontWeight: FontWeight.w400,
         ),
@@ -60,14 +58,14 @@ class CustomListViewTile extends StatelessWidget {
 class CustomListViewTileWithActivity extends StatelessWidget {
   final double height;
   final String title;
-  //final String subtitle;
+  final String subtitle;
   final Function onTap;
 
   CustomListViewTileWithActivity({
     Key? key,
     required this.height,
     required this.title,
-    //required this.subtitle,
+    required this.subtitle,
     required this.onTap,
   }) : super(key: key);
 
@@ -79,30 +77,15 @@ class CustomListViewTileWithActivity extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.black87,
           fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
       ),
-      // subtitle: isActivity
-      //     ? Row(
-      //         mainAxisSize: MainAxisSize.max,
-      //         mainAxisAlignment: MainAxisAlignment.start,
-      //         crossAxisAlignment: CrossAxisAlignment.center,
-      //         children: [
-      //           SpinKitThreeBounce(
-      //             color: Colors.white60,
-      //             size: height * 0.10,
-      //           ),
-      //         ],
-      //       )
-      //     : Text(
-      //         subtitle,
-      //         style: const TextStyle(
-      //             color: Colors.white54,
-      //             fontSize: 12,
-      //             fontWeight: FontWeight.w400),
-      //       ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(
+            color: Colors.white54, fontSize: 12, fontWeight: FontWeight.w400),
+      ),
     );
   }
 }

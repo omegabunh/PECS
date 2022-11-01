@@ -17,6 +17,8 @@ class EsportsPage extends StatefulWidget {
 }
 
 class _EsportsPageState extends State<EsportsPage> {
+  late double _deviceHeight;
+  late double _deviceWidth;
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -30,6 +32,8 @@ class _EsportsPageState extends State<EsportsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
     return _buildUI();
   }
 
@@ -37,23 +41,24 @@ class _EsportsPageState extends State<EsportsPage> {
     var screenHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          // appBar: AppBar(
-          //   title: const Text('PUBG Esports'),
-          //   automaticallyImplyLeading: true,
-          // ),
-          body: Builder(
-            builder: (BuildContext context) {
-              return WebView(
-                initialUrl: 'https://www.pubgesports.com/',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) {
-                  _controller.complete(webViewController);
-                },
-              );
-            },
-          ),
+      home: Container(
+        // padding: EdgeInsets.symmetric(
+        //   horizontal: _deviceWidth * 0.03,
+        //   vertical: _deviceHeight * 0.02,
+        // ),
+        padding: EdgeInsets.only(top: _deviceHeight * 0.03),
+        height: _deviceHeight,
+        width: _deviceWidth,
+        child: Builder(
+          builder: (BuildContext context) {
+            return WebView(
+              initialUrl: 'https://www.pubgesports.com/',
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                _controller.complete(webViewController);
+              },
+            );
+          },
         ),
       ),
     );
