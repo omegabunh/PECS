@@ -53,15 +53,15 @@ class DatabaseService {
     return _query.get();
   }
 
-  // Future<QuerySnapshot> getChatRoom({String? roomName}) {
-  //   Query _query = _db.collection(CHAT_COLLECTION);
-  //   if (roomName != null) {
-  //     _query = _query
-  //         .where("roomName", isGreaterThanOrEqualTo: roomName)
-  //         .where("roomName", isLessThanOrEqualTo: roomName + "z");
-  //   }
-  //   return _query.get();
-  // }
+  Future<QuerySnapshot> getChatList({String? roomName}) {
+    Query _query = _db.collection(CHAT_COLLECTION);
+    if (roomName != null) {
+      _query = _query
+          .where("roomName", isGreaterThanOrEqualTo: roomName)
+          .where("roomName", isLessThanOrEqualTo: roomName + "z");
+    }
+    return _query.get();
+  }
 
   Future<DocumentSnapshot> getChatRoom(String _uid) {
     return _db.collection(CHAT_COLLECTION).doc(_uid).get();
@@ -110,6 +110,16 @@ class DatabaseService {
   Future<void> deleteChat(String _chatID) async {
     try {
       await _db.collection(CHAT_COLLECTION).doc(_chatID).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> addMemberToRoom(String _roomId, String _uid) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_roomId).update({
+        "members": FieldValue.arrayUnion([_uid]),
+      });
     } catch (e) {
       print(e);
     }

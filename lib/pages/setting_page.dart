@@ -1,7 +1,6 @@
 //Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:get_it/get_it.dart';
 
 //Widgets
 import '../widgets/top_bar.dart';

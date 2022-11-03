@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import './models/theme.dart';
 
@@ -20,7 +21,9 @@ import './pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     SplashPage(
       key: UniqueKey(),
@@ -58,7 +61,7 @@ class MainApp extends StatelessWidget {
             routes: {
               '/login': (BuildContext _context) => const LoginPage(),
               '/register': (BuildContext _context) => RegisterPage(),
-              '/home': (BuildContext _context) => HomePage(),
+              '/home': (BuildContext _context) => const HomePage(),
             },
             debugShowCheckedModeBanner: false,
           ),

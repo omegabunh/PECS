@@ -17,6 +17,8 @@ import '../widgets/rounded_button.dart';
 import '../providers/authentication_provider.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _RegisterPageState();

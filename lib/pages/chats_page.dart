@@ -12,6 +12,7 @@ import '../services/navigation_service.dart';
 
 //Pages
 import '../pages/chat_page.dart';
+import '../pages/chat_list_page.dart';
 
 //Widgets
 import '../widgets/top_bar.dart';
@@ -21,8 +22,6 @@ import '../widgets/custom_list_view_tiles.dart';
 import '../models/chat.dart';
 import '../models/chat_user.dart';
 import '../models/chat_message.dart';
-import '../models/chat_room.dart';
-import '../widgets/rounded_button.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({Key? key}) : super(key: key);
@@ -60,31 +59,44 @@ class _ChatsPageState extends State<ChatsPage> {
   Widget _buildUI() {
     return Builder(builder: (BuildContext _context) {
       _pageProvider = _context.watch<ChatsPageProvider>();
-      return Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: _deviceWidth * 0.03,
-          vertical: _deviceHeight * 0.02,
-        ),
-        height: _deviceHeight,
-        width: _deviceWidth,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopBar(
-              'Chats',
-              primaryAction: IconButton(
-                icon: const Icon(
-                  Icons.logout,
+      return Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: _deviceWidth * 0.03,
+            vertical: _deviceHeight * 0.02,
+          ),
+          height: _deviceHeight,
+          width: _deviceWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar(
+                'Chats',
+                primaryAction: IconButton(
+                  icon: const Icon(
+                    Icons.logout,
+                  ),
+                  onPressed: () {
+                    _auth.logout();
+                  },
                 ),
-                onPressed: () {
-                  _auth.logout();
-                },
               ),
-            ),
-            _chatList(),
-          ],
+              _chatList(),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _navigation.navigateToPage(
+              ChatListPage(),
+            );
+          },
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       );
     });
@@ -115,20 +127,6 @@ class _ChatsPageState extends State<ChatsPage> {
       }
     }());
   }
-
-  // Widget _createChatButton() {
-  //   return Visibility(
-  //     visible: _pageProvider.selectedUsers.isNotEmpty,
-  //     child: RoundedButton(
-  //       name: _pageProvider.selectedUsers.length == 1 ? "1:1 채팅" : "그룹 채팅",
-  //       height: _deviceHeight * 0.08,
-  //       width: _deviceWidth * 0.80,
-  //       onPressed: () {
-  //         _pageProvider.createChat();
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget _chatTile(Chat _chat) {
     List<ChatUser> _recepients = _chat.recepients();

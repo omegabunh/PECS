@@ -61,23 +61,13 @@ class TextMessageBubble extends StatelessWidget {
   }
 
   Widget _platformText() {
-    if (Platform.isIOS) {
-      return SelectableText(
-        message.content,
-        style: const TextStyle(
-          color: Colors.black,
-        ),
-        //selectionControls: MyCupertinoTextSelectionControls(),
-      );
-    } else {
-      return SelectableText(
-        message.content,
-        style: const TextStyle(
-          color: Colors.black,
-        ),
-        //selectionControls: MyMaterialTextSelectionControls(),
-      );
-    }
+    return SelectableText(
+      message.content,
+      style: const TextStyle(
+        color: Colors.black,
+      ),
+      //selectionControls: MyMaterialTextSelectionControls(),
+    );
   }
 }
 

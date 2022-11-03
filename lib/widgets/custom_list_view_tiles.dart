@@ -108,6 +108,7 @@ class CustomChatListViewTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    timeago.setLocaleMessages('ko', timeago.KoMessages());
     return Container(
       padding: const EdgeInsets.only(bottom: 10),
       width: width,
