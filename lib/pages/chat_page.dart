@@ -1,6 +1,4 @@
 //Packages
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +20,7 @@ import '../providers/chat_page_provider.dart';
 class ChatPage extends StatefulWidget {
   final Chat chat;
 
-  // ignore: use_key_in_widget_constructors
-  const ChatPage({required this.chat});
+  const ChatPage({super.key, required this.chat});
 
   @override
   State<StatefulWidget> createState() {
@@ -71,8 +68,8 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildUI() {
     return Builder(
-      builder: (BuildContext _context) {
-        _pageProvider = _context.watch<ChatPageProvider>();
+      builder: (BuildContext context) {
+        _pageProvider = context.watch<ChatPageProvider>();
         return Scaffold(
           body: SingleChildScrollView(
             child: Container(
@@ -134,16 +131,16 @@ class _ChatPageState extends State<ChatPage> {
               shrinkWrap: true,
               controller: _messagesListViewController,
               itemCount: _pageProvider.messages!.length,
-              itemBuilder: (BuildContext _context, int _index) {
-                ChatMessage _message = _pageProvider.messages![_index];
-                bool _isOwnMessage = _message.senderID == _auth.user.uid;
+              itemBuilder: (BuildContext context, int index) {
+                ChatMessage message = _pageProvider.messages![index];
+                bool isOwnMessage = message.senderID == _auth.user.uid;
                 return CustomChatListViewTile(
                   deviceHeight: _deviceHeight,
                   width: _deviceWidth * 0.80,
-                  message: _message,
-                  isOwnMessage: _isOwnMessage,
+                  message: message,
+                  isOwnMessage: isOwnMessage,
                   sender: widget.chat.members
-                      .where((_m) => _m.uid == _message.senderID)
+                      .where((m) => m.uid == message.senderID)
                       .first,
                 );
               },
@@ -174,8 +171,8 @@ class _ChatPageState extends State<ChatPage> {
         key: _messageFormState,
         child: ChatTextFormField(
           size: _deviceHeight * 0.04,
-          onSaved: (_value) {
-            text = _pageProvider.message = _value;
+          onSaved: (value) {
+            text = _pageProvider.message = value;
           },
           regEx: r"^(?!\s*$).+",
           message: '',

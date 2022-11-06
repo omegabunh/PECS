@@ -1,6 +1,3 @@
-import '../models/chat_user.dart';
-import '../models/chat_message.dart';
-
 class ChatList {
   final String uid;
   final String roomName;

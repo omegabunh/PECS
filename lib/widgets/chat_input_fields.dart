@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+//Packages
 import 'package:flutter/material.dart';
 
 class ChatTextFormField extends StatelessWidget {
@@ -25,11 +26,11 @@ class ChatTextFormField extends StatelessWidget {
       minLines: 1,
       maxLines: 3,
       keyboardType: TextInputType.multiline,
-      onSaved: (_value) => onSaved(_value!),
+      onSaved: (value) => onSaved(value!),
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
-      validator: (_value) {
-        return RegExp(regEx).hasMatch(_value!) ? null : message;
+      validator: (value) {
+        return RegExp(regEx).hasMatch(value!) ? null : message;
       },
       decoration: InputDecoration(
         contentPadding:

@@ -1,16 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-import 'dart:io';
-
+//Packages
 import 'package:flutter/material.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
 //Models
 import '../models/chat_message.dart';
-
-//Widgets
-// import '../widgets/custom_selectabletext.dart';
-// import '../widgets/ios_custom_selectabletext.dart';
 
 class TextMessageBubble extends StatelessWidget {
   final bool isOwnMessage;
@@ -128,9 +123,9 @@ class ImageMessageBubble extends StatelessWidget {
                           child: Hero(
                             tag: '$_image',
                             child: PinchZoom(
-                              child: Image.network(message.content),
                               resetDuration: const Duration(milliseconds: 100),
                               maxScale: 3,
+                              child: Image.network(message.content),
                             ),
                           ),
                         ),

@@ -57,8 +57,8 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _buildUI() {
-    return Builder(builder: (BuildContext _context) {
-      _pageProvider = _context.watch<ChatsPageProvider>();
+    return Builder(builder: (BuildContext context) {
+      _pageProvider = context.watch<ChatsPageProvider>();
       return Scaffold(
         body: Container(
           padding: EdgeInsets.symmetric(
@@ -103,14 +103,14 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _chatList() {
-    List<Chat>? _rooms = _pageProvider.chats;
+    List<Chat>? rooms = _pageProvider.chats;
     return Expanded(child: () {
-      if (_rooms != null) {
-        if (_rooms.isNotEmpty) {
+      if (rooms != null) {
+        if (rooms.isNotEmpty) {
           return ListView.builder(
-            itemCount: _rooms.length,
-            itemBuilder: (BuildContext _context, int _index) {
-              return _chatTile(_rooms[_index]);
+            itemCount: rooms.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _chatTile(rooms[index]);
             },
           );
         } else {
@@ -128,21 +128,21 @@ class _ChatsPageState extends State<ChatsPage> {
     }());
   }
 
-  Widget _chatTile(Chat _chat) {
-    List<ChatUser> _recepients = _chat.recepients();
-    String _subtitleText = "";
-    if (_chat.messages.isNotEmpty) {
-      _subtitleText = _chat.messages.first.type != MessageType.TEXT
+  Widget _chatTile(Chat chat) {
+    List<ChatUser> recepients = chat.recepients();
+    String subtitleText = "";
+    if (chat.messages.isNotEmpty) {
+      subtitleText = chat.messages.first.type != MessageType.TEXT
           ? "사진"
-          : _chat.messages.first.content;
+          : chat.messages.first.content;
     }
     return CustomListViewTileWithActivity(
         height: _deviceHeight * 0.10,
-        title: _chat.title(),
-        subtitle: _subtitleText,
+        title: chat.title(),
+        subtitle: subtitleText,
         onTap: () {
           _navigation.navigateToPage(
-            ChatPage(chat: _chat),
+            ChatPage(chat: chat),
           );
         });
   }

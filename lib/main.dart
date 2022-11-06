@@ -1,10 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter/material.dart';
-import './models/theme.dart';
 
 //Packages
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 //Services
 import 'providers/theme_provider.dart';
@@ -18,6 +17,9 @@ import './pages/splash_page.dart';
 import './pages/login_page.dart';
 import './pages/register_page.dart';
 import './pages/home_page.dart';
+
+//Models
+import './models/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 //Services
 import '../services/database_service.dart';
-import '../services/cloud_storage_service.dart';
 
 //Widgets
 import '../widgets/custom_input_fields.dart';
@@ -34,7 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   late AuthenticationProvider _auth;
   late DatabaseService _db;
-  late CloudStorageService _cloudStorage;
 
   late String uid;
   late String email;
@@ -42,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
   late String profileImage;
 
   String? _name;
-  PlatformFile? _profileImage;
 
   final _registerFormKey = GlobalKey<FormState>();
 
@@ -50,7 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     _auth = Provider.of<AuthenticationProvider>(context);
     _db = GetIt.instance.get<DatabaseService>();
-    _cloudStorage = GetIt.instance.get<CloudStorageService>();
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return _buildUI();
@@ -114,9 +110,9 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Form(
         key: _registerFormKey,
         child: CustomTextFormField(
-          onSaved: (_value) {
+          onSaved: (value) {
             setState(() {
-              _name = _value;
+              _name = value;
             });
           },
           regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣0-9]{2,6}$',

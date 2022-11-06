@@ -59,7 +59,7 @@ class _UserPageState extends State<UserPage> {
     email = _auth.user.email;
 
     return Builder(
-      builder: (BuildContext _context) {
+      builder: (BuildContext context) {
         return Container(
           padding: EdgeInsets.symmetric(
             horizontal: _deviceWidth * 0.03,
@@ -85,12 +85,12 @@ class _UserPageState extends State<UserPage> {
                   _auth.logout();
                 },
                 text: "로그아웃",
-                leftIcon: Icon(
+                leftIcon: const Icon(
                   Icons.person_outline_rounded,
                   color: Colors.black45,
                   size: 25,
                 ),
-                rightIcon: Icon(
+                rightIcon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.black45,
                   size: 25,
@@ -99,19 +99,19 @@ class _UserPageState extends State<UserPage> {
               CustomTextButton(
                 onPressed: () {
                   Navigator.push(
-                    _context,
+                    context,
                     MaterialPageRoute(
-                      builder: (_context) => ProfilePage(),
+                      builder: (context) => const ProfilePage(),
                     ),
                   );
                 },
                 text: "프로필 편집",
-                leftIcon: Icon(
+                leftIcon: const Icon(
                   Icons.app_registration_outlined,
                   color: Colors.black45,
                   size: 25,
                 ),
-                rightIcon: Icon(
+                rightIcon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.black45,
                   size: 25,
@@ -120,19 +120,19 @@ class _UserPageState extends State<UserPage> {
               CustomTextButton(
                 onPressed: () {
                   Navigator.push(
-                    _context,
+                    context,
                     MaterialPageRoute(
-                      builder: (_context) => SettingPage(),
+                      builder: (context) => const SettingPage(),
                     ),
                   );
                 },
                 text: "설정",
-                leftIcon: Icon(
+                leftIcon: const Icon(
                   Icons.settings,
                   color: Colors.black45,
                   size: 25,
                 ),
-                rightIcon: Icon(
+                rightIcon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.black45,
                   size: 25,

@@ -72,7 +72,7 @@ class _SettingPageState extends State<SettingPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('테마 변경'),
+                    const Text('테마 변경'),
                     Switch.adaptive(
                       value: themeNotifier.isDark,
                       onChanged: (value) {

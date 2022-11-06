@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _registerForm() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.35,
       child: Form(
         key: _registerFormKey,
@@ -92,9 +92,9 @@ class _RegisterPageState extends State<RegisterPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomTextFormField(
-              onSaved: (_value) {
+              onSaved: (value) {
                 setState(() {
-                  _name = _value;
+                  _name = value;
                 });
               },
               regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣0-9]{2,6}$',
@@ -104,9 +104,9 @@ class _RegisterPageState extends State<RegisterPage> {
               type: TextInputType.text,
             ),
             CustomTextFormField(
-              onSaved: (_value) {
+              onSaved: (value) {
                 setState(() {
-                  _email = _value;
+                  _email = value;
                 });
               },
               regEx:
@@ -117,9 +117,9 @@ class _RegisterPageState extends State<RegisterPage> {
               type: TextInputType.emailAddress,
             ),
             CustomTextFormField(
-              onSaved: (_value) {
+              onSaved: (value) {
                 setState(() {
-                  _password = _value;
+                  _password = value;
                 });
               },
               regEx: r".{8,}",
@@ -142,13 +142,12 @@ class _RegisterPageState extends State<RegisterPage> {
       onPressed: () async {
         if (_registerFormKey.currentState!.validate()) {
           _registerFormKey.currentState!.save();
-          String? _uid = await _auth.registerUserUsingEmailAndPassword(
+          String? uid = await _auth.registerUserUsingEmailAndPassword(
               _email!, _password!);
 
-          await _db.createUser(_uid!, _email!, _name!);
+          await _db.createUser(uid!, _email!, _name!);
           await _auth.logout();
           await _auth.loginUsingEmailAndPassword(_email!, _password!);
-          print("등록됨.");
         }
       },
     );

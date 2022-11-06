@@ -56,8 +56,8 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget _buildUI() {
-    return Builder(builder: (BuildContext _context) {
-      _pageProvider = _context.watch<ChatListPageProvider>();
+    return Builder(builder: (BuildContext context) {
+      _pageProvider = context.watch<ChatListPageProvider>();
       return Scaffold(
         body: Container(
           padding: EdgeInsets.symmetric(
@@ -96,19 +96,19 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget _chatList(String uid) {
-    List<ChatRoom>? _rooms = _pageProvider.chats;
+    List<ChatRoom>? rooms = _pageProvider.chats;
     return Expanded(child: () {
-      if (_rooms != null) {
-        if (_rooms.isNotEmpty) {
+      if (rooms != null) {
+        if (rooms.isNotEmpty) {
           return ListView.builder(
-            itemCount: _rooms.length,
-            itemBuilder: (BuildContext _context, int _index) {
+            itemCount: rooms.length,
+            itemBuilder: (BuildContext context, int index) {
               return CustomListViewTile(
                 height: _deviceHeight * 0.10,
-                title: _rooms[_index].roomName,
-                subtitle: _rooms[_index].number.toString(),
+                title: rooms[index].roomName,
+                subtitle: rooms[index].number.toString(),
                 isSelected: _pageProvider.selectedUsers.contains(
-                  _rooms[_index],
+                  rooms[index],
                 ),
                 onTap: () {
                   showDialog(
@@ -121,7 +121,7 @@ class _ChatListPageState extends State<ChatListPage> {
                             onPressed: () {
                               setState(
                                 () {
-                                  _db.addMemberToRoom(_rooms[_index].uid, uid);
+                                  _db.addMemberToRoom(rooms[index].uid, uid);
                                 },
                               );
                               Navigator.pop(context);

@@ -1,6 +1,5 @@
 import '../models/chat_user.dart';
 import '../models/chat_message.dart';
-import '../models/chat_room.dart';
 
 class Chat {
   final String uid;
@@ -18,7 +17,7 @@ class Chat {
     required this.messages,
     required this.roomName,
   }) {
-    _recepients = members.where((_i) => _i.uid != currentUserUid).toList();
+    _recepients = members.where((i) => i.uid != currentUserUid).toList();
   }
   List<ChatUser> recepients() {
     return _recepients;

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_final_fields, avoid_print
+// ignore_for_file: unused_field, prefer_final_fields, avoid_print, no_leading_underscores_for_local_identifiers
 
 import 'dart:async';
 
@@ -54,7 +54,6 @@ class ChatPageProvider extends ChangeNotifier {
     _navigation = GetIt.instance.get<NavigationService>();
     _keyboardVisibilityController = KeyboardVisibilityController();
     listenToMessages();
-    listenToKeyboardChanges();
   }
 
   @override
@@ -76,7 +75,7 @@ class ChatPageProvider extends ChangeNotifier {
           ).toList();
           messages = _messages;
           notifyListeners();
-          WidgetsBinding.instance!.addPostFrameCallback(
+          WidgetsBinding.instance.addPostFrameCallback(
             (_) {
               if (_messagesListViewController.hasClients) {
                 _messagesListViewController.jumpTo(
@@ -90,14 +89,6 @@ class ChatPageProvider extends ChangeNotifier {
       print("메시지를 가져오는데 문제가 발생하였습니다.");
       print(e);
     }
-  }
-
-  void listenToKeyboardChanges() {
-    _keyboardVisibilityStream = _keyboardVisibilityController.onChange.listen(
-      (_event) {
-        //_db.updateChatData(_chatID, {"is_activity": _event});
-      },
-    );
   }
 
   void sendTextMessage() {

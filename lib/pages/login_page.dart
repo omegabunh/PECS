@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text(
         'EsportsCAL',
         style: TextStyle(
-          color: const Color.fromRGBO(64, 127, 104, 1.0),
+          color: Color.fromRGBO(64, 127, 104, 1.0),
           fontSize: 40,
           fontWeight: FontWeight.w600,
         ),
@@ -102,9 +102,9 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomTextFormField(
-              onSaved: (_value) {
+              onSaved: (value) {
                 setState(() {
-                  _email = _value;
+                  _email = value;
                 });
               },
               regEx:
@@ -114,13 +114,13 @@ class _LoginPageState extends State<LoginPage> {
               message: '이메일을 입력해주십시요.',
               type: TextInputType.emailAddress,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             CustomTextFormField(
-              onSaved: (_value) {
+              onSaved: (value) {
                 setState(() {
-                  _password = _value;
+                  _password = value;
                 });
               },
               regEx: r".{8,}",
@@ -144,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
         if (_loginFormKey.currentState!.validate()) {
           _loginFormKey.currentState!.save();
           _auth.loginUsingEmailAndPassword(_email!, _password!);
-          print("로그인됨.");
         }
       },
     );
@@ -156,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text(
         '회원가입',
         style: TextStyle(
-          color: const Color.fromRGBO(64, 127, 104, 1.0),
+          color: Color.fromRGBO(64, 127, 104, 1.0),
         ),
       ),
     );

@@ -1,4 +1,6 @@
 //Packages
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,22 +33,16 @@ class ChatListPageProvider extends ChangeNotifier {
     getChatList();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void getChatList({String? roomName}) async {
     _selectedRoom = [];
     try {
       _db.getChatList(roomName: roomName).then(
-        (_snapshot) {
-          chats = _snapshot.docs
-              .map((_doc) {
-                Map<String, dynamic> _data =
-                    _doc.data() as Map<String, dynamic>;
-                _data["uid"] = _doc.id;
-                return ChatRoom.fromJSON(_data);
+        (snapshot) {
+          chats = snapshot.docs
+              .map((doc) {
+                Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                data["uid"] = doc.id;
+                return ChatRoom.fromJSON(data);
               })
               .cast<ChatRoom>()
               .toList();
@@ -59,11 +55,11 @@ class ChatListPageProvider extends ChangeNotifier {
     }
   }
 
-  void updateSelectedRoom(ChatRoom _room) {
-    if (_selectedRoom.contains(_room)) {
-      _selectedRoom.remove(_room);
+  void updateSelectedRoom(ChatRoom room) {
+    if (_selectedRoom.contains(room)) {
+      _selectedRoom.remove(room);
     } else {
-      _selectedRoom.add(_room);
+      _selectedRoom.add(room);
     }
     notifyListeners();
   }

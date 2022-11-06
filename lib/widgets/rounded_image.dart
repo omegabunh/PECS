@@ -1,5 +1,6 @@
 import 'dart:io';
 
+//Packages
 import 'package:flutter/material.dart';
 
 class RoundedImageNetwork extends StatelessWidget {
@@ -77,7 +78,6 @@ class RoundedInImageFile extends StatelessWidget {
         image: const DecorationImage(
           fit: BoxFit.cover,
           image: AssetImage('assets/images/user.png'),
-          //<a href="https://www.flaticon.com/kr/free-icons/" title="사용자 아이콘">사용자 아이콘  제작자: Becris - Flaticon</a>
         ),
         borderRadius: BorderRadius.all(
           Radius.circular(size),

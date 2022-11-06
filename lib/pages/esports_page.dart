@@ -1,10 +1,8 @@
-//Packages
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-import 'package:get_it/get_it.dart';
+//Packages
+import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class EsportsPage extends StatefulWidget {

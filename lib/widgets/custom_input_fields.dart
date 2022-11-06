@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable
 
+//Packages
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -26,23 +27,19 @@ class CustomTextFormField extends StatelessWidget {
       elevation: 5,
       borderRadius: BorderRadius.circular(15.0),
       child: TextFormField(
-        onSaved: (_value) => onSaved(_value!),
-        //cursorColor: Colors.black87,
-        //style: const TextStyle(color: Colors.black87),
+        onSaved: (value) => onSaved(value!),
         obscureText: obscureText,
-        validator: (_value) {
-          return RegExp(regEx).hasMatch(_value!) ? null : message;
+        validator: (value) {
+          return RegExp(regEx).hasMatch(value!) ? null : message;
         },
         keyboardType: type,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(18.0),
-          //fillColor: const Color(0xFFF5F6F9),
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
           hintText: hintText,
-          //hintStyle: const TextStyle(color: Colors.black54),
         ),
       ),
     );

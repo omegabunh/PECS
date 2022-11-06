@@ -20,10 +20,10 @@ class _HomePageState extends State<HomePage> {
   int _currentPage = 0;
 
   final List<Widget> _pages = [
-    EsportsPage(),
-    ChatsPage(),
+    const EsportsPage(),
+    const ChatsPage(),
     SearchPage(),
-    UserPage(),
+    const UserPage(),
   ];
 
   @override
@@ -37,14 +37,14 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentPage,
-        onTap: (_index) {
+        onTap: (index) {
           setState(
             () {
-              _currentPage = _index;
+              _currentPage = index;
             },
           );
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: "Esports",
             icon: Icon(

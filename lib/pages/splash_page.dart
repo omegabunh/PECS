@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import '../firebase_options.dart';
 
 //Packages
 import 'package:firebase_core/firebase_core.dart';
-import '../firebase_options.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //Services
@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1)).then(
+    Future.delayed(const Duration(seconds: 1)).then(
       (_) {
         _setup().then(
           (_) => widget.onInitializationComplete(),
@@ -43,15 +43,15 @@ class _SplashPageState extends State<SplashPage> {
     return MaterialApp(
       title: 'CompanyChat',
       theme: ThemeData(
-        backgroundColor: Color.fromRGBO(155, 217, 191, 1.0),
-        scaffoldBackgroundColor: Color.fromRGBO(155, 217, 191, 1.0),
+        backgroundColor: const Color.fromRGBO(155, 217, 191, 1.0),
+        scaffoldBackgroundColor: const Color.fromRGBO(155, 217, 191, 1.0),
       ),
       home: Scaffold(
         body: Center(
           child: Container(
             height: 200,
             width: 200,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.contain,
                 image: AssetImage('assets/images/logo.png'),

@@ -28,13 +28,13 @@ class AuthenticationProvider extends ChangeNotifier {
       if (_user != null) {
         _databaseService.getUser(_user.uid).then(
           (_snapshot) {
-            Map<String, dynamic> _userData =
+            Map<String, dynamic> userData =
                 _snapshot.data()! as Map<String, dynamic>;
             user = ChatUser.fromJSON(
               {
                 "uid": _user.uid,
-                "name": _userData["name"],
-                "email": _userData["email"],
+                "name": userData["name"],
+                "email": userData["email"],
               },
             );
             _navigationService.removeAndNavigateToRoute('/home');
@@ -46,11 +46,9 @@ class AuthenticationProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> loginUsingEmailAndPassword(
-      String _email, String _password) async {
+  Future<void> loginUsingEmailAndPassword(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(
-          email: _email, password: _password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException {
       Fluttertoast.showToast(
         msg: "아이디 또는 비밀번호가 잘못 입력 되었습니다.",
@@ -67,11 +65,11 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   Future<String?> registerUserUsingEmailAndPassword(
-      String _email, String _password) async {
+      String email, String password) async {
     try {
-      UserCredential _credentials = await _auth.createUserWithEmailAndPassword(
-          email: _email, password: _password);
-      return _credentials.user!.uid;
+      UserCredential credentials = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return credentials.user!.uid;
     } on FirebaseAuthException {
       Fluttertoast.showToast(
         msg: "이미 존재하는 이메일입니다.",
