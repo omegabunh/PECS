@@ -28,6 +28,8 @@ dependencies:
   timeago: ^3.3.0
   pinch_zoom: ^1.0.0
   flutter_keyboard_visibility: ^5.4.0
+  http: ^0.13.5
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +43,4 @@ flutter:
  
   assets:
     - assets/images/
+    - assets/config/.env

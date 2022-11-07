@@ -103,6 +103,7 @@ class _ChatListPageState extends State<ChatListPage> {
           return ListView.builder(
             itemCount: rooms.length,
             itemBuilder: (BuildContext context, int index) {
+              rooms.sort((a, b) => a.number.compareTo(b.number));
               return CustomListViewTile(
                 height: _deviceHeight * 0.10,
                 title: rooms[index].roomName,

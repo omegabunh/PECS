@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const EsportsPage(),
     const ChatsPage(),
-    SearchPage(),
+    const SearchPage(),
     const UserPage(),
   ];
 

@@ -82,8 +82,6 @@ class CustomListViewTileWithActivity extends StatelessWidget {
       ),
       subtitle: Text(
         subtitle,
-        style: const TextStyle(
-            color: Colors.white54, fontSize: 12, fontWeight: FontWeight.w400),
       ),
     );
   }
@@ -111,59 +109,57 @@ class CustomChatListViewTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(bottom: 10),
       width: width,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment:
-            isOwnMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           !isOwnMessage
-              ? Column(
-                  children: [
-                    // RoundedImageNetwork(
-                    //     key: UniqueKey(),
-                    //     imagePath: sender.imageURL,
-                    //     size: width * 0.13),
-                    Text(
-                      sender.name,
-                      style: const TextStyle(color: Colors.white, fontSize: 10),
-                    )
-                  ],
+              ? Text(
+                  sender.name,
+                  style: const TextStyle(
+                    fontSize: 11,
+                  ),
                 )
               : Container(),
-          !isOwnMessage
-              ? Container()
-              : Text(
-                  timeago.format(message.sentTime, locale: 'ko'),
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                  ),
-                ),
-          SizedBox(
-            width: width * 0.01,
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment:
+                isOwnMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              !isOwnMessage
+                  ? Container()
+                  : Text(
+                      timeago.format(message.sentTime, locale: 'ko'),
+                      style: const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              message.type == MessageType.TEXT
+                  ? TextMessageBubble(
+                      isOwnMessage: isOwnMessage,
+                      message: message,
+                      height: deviceHeight * 0.06,
+                      width: width,
+                    )
+                  : ImageMessageBubble(
+                      isOwnMessage: isOwnMessage,
+                      message: message,
+                      height: deviceHeight * 0.30,
+                      width: width * 0.55,
+                    ),
+              isOwnMessage
+                  ? Container()
+                  : Text(
+                      timeago.format(message.sentTime, locale: 'ko'),
+                      style: const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+            ],
           ),
-          message.type == MessageType.TEXT
-              ? TextMessageBubble(
-                  isOwnMessage: isOwnMessage,
-                  message: message,
-                  height: deviceHeight * 0.06,
-                  width: width)
-              : ImageMessageBubble(
-                  isOwnMessage: isOwnMessage,
-                  message: message,
-                  height: deviceHeight * 0.30,
-                  width: width * 0.55,
-                ),
-          isOwnMessage
-              ? Container()
-              : Text(
-                  timeago.format(message.sentTime, locale: 'ko'),
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                  ),
-                ),
         ],
       ),
     );
@@ -199,7 +195,6 @@ class CustomProfileTile extends StatelessWidget {
           title: Text(
             title,
             style: const TextStyle(
-              color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.w500,
             ),

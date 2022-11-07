@@ -8,7 +8,7 @@ import '../services/database_service.dart';
 import '../services/cloud_storage_service.dart';
 
 //Widgets
-import '../widgets/custom_text_button.dart';
+import '../widgets/rounded_button.dart';
 import '../widgets/top_bar.dart';
 
 //Providers
@@ -81,6 +81,8 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               CustomTextButton(
+                height: _deviceHeight * 0.065,
+                width: _deviceWidth * 0.85,
                 onPressed: () {
                   _auth.logout();
                 },
@@ -97,6 +99,8 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               CustomTextButton(
+                height: _deviceHeight * 0.065,
+                width: _deviceWidth * 0.85,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -118,6 +122,8 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               CustomTextButton(
+                height: _deviceHeight * 0.065,
+                width: _deviceWidth * 0.85,
                 onPressed: () {
                   Navigator.push(
                     context,

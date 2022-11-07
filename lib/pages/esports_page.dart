@@ -39,14 +39,8 @@ class _EsportsPageState extends State<EsportsPage> {
     var screenHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Container(
-        // padding: EdgeInsets.symmetric(
-        //   horizontal: _deviceWidth * 0.03,
-        //   vertical: _deviceHeight * 0.02,
-        // ),
-        padding: EdgeInsets.only(top: _deviceHeight * 0.03),
-        height: _deviceHeight,
-        width: _deviceWidth,
+      home: SafeArea(
+        bottom: false,
         child: Builder(
           builder: (BuildContext context) {
             return WebView(

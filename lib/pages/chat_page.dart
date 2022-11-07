@@ -90,7 +90,6 @@ class _ChatPageState extends State<ChatPage> {
                     primaryAction: IconButton(
                       icon: const Icon(
                         Icons.exit_to_app,
-                        color: Colors.white,
                       ),
                       onPressed: () {
                         _pageProvider.deleteChat();
@@ -99,7 +98,6 @@ class _ChatPageState extends State<ChatPage> {
                     secondaryAction: IconButton(
                       icon: Icon(
                         Icons.adaptive.arrow_back,
-                        color: Colors.white,
                       ),
                       onPressed: () {
                         _pageProvider.goBack();

@@ -67,19 +67,15 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       onEditingComplete: () => onEditingComplete(controller.value.text),
-      cursorColor: Colors.white,
-      style: const TextStyle(color: Colors.white),
       obscureText: obscureText,
       decoration: InputDecoration(
-        fillColor: const Color.fromRGBO(30, 29, 37, 0.1),
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
           borderSide: BorderSide.none,
         ),
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white54),
-        prefixIcon: Icon(icon, color: Colors.white54),
+        prefixIcon: Icon(icon),
       ),
     );
   }
