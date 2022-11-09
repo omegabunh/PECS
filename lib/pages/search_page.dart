@@ -40,7 +40,9 @@ class _SearchPageState extends State<SearchPage> {
   String selectedPlatform = 'steam';
   List<int> seasonList = [for (int i = 1; i <= 20; i++) i];
   int selectedSeason = 20;
-  PlayerStats result = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  PlayerStats duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +54,14 @@ class _SearchPageState extends State<SearchPage> {
 
   void getPlayerData(String selectedPlatform, String playerName, String apiKey,
       int selectedSeason) async {
-    result =
+    var stats =
         await getPlayer(selectedPlatform, playerName, apiKey, selectedSeason);
+    PlayerStats soloStats = PlayerStats.fromJson(stats['solo']);
+    PlayerStats duoStats = PlayerStats.fromJson(stats['duo']);
+    PlayerStats squadStats = PlayerStats.fromJson(stats['squad']);
+    soloResult = soloStats;
+    duoResult = duoStats;
+    squadResult = squadStats;
     setState(() {});
   }
 
@@ -141,12 +149,12 @@ class _SearchPageState extends State<SearchPage> {
                   child: CustomTextField(
                     onEditingComplete: (value) {
                       playerName = value;
-                      _visibility ? _hide() : _show();
                       FocusScope.of(context).unfocus();
                       //_callAPI();
                       getPlayerData(selectedPlatform, playerName, apiKey!,
                           selectedSeason);
                       _searchFieldTextEditingController.clear();
+                      _visibility ? _hide() : _show();
                     },
                     hintText: "닉네임을 입력하세요.",
                     obscureText: false,
@@ -166,20 +174,307 @@ class _SearchPageState extends State<SearchPage> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       elevation: 4.0, //그림자 깊이
+                      child: Text(
+                        playerName,
+                        style: const TextStyle(
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
+                      child: const Text(
+                        'Solo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
                       child: Column(
                         children: [
-                          statsRow('플레이어', playerName),
-                          statsRow('승', result.wins.toString()),
-                          statsRow('탑 10', result.top10s.toString()),
-                          statsRow('패', result.losses.toString()),
-                          statsRow('킬 수', result.kills.toString()),
-                          statsRow('어시스트', result.assist.toString()),
-                          statsRow('총 데미지', result.damageDealt.toString()),
-                          statsRow('헤드샷', result.headshotKills.toString()),
-                          statsRow('저격', result.longestKill.toString()),
-                          statsRow('게임 수', result.roundsPlayed.toString()),
-                          statsRow('생존 시간', result.mostSurvivalTime.toString()),
-                          statsRow('여포', result.roundMostKills.toString()),
+                          Table(
+                            children: [
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow('게임 수',
+                                        soloResult.roundsPlayed.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '탑 10', soloResult.top10s.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '킬 수', soloResult.kills.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('총 데미지',
+                                        soloResult.damageDealt.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '승', soloResult.wins.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '패', soloResult.losses.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '어시스트', soloResult.assist.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('헤드샷',
+                                        soloResult.headshotKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '저격', '${soloResult.longestKill}m'),
+                                  ),
+                                  Container(
+                                    child: statsRow('최다 킬',
+                                        soloResult.roundMostKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow('생존 시간',
+                                        soloResult.mostSurvivalTime.toString()),
+                                  ),
+                                  Container(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      color: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
+                      child: const Text(
+                        'Duo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
+                      child: Column(
+                        children: [
+                          Table(
+                            children: [
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow('게임 수',
+                                        duoResult.roundsPlayed.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '탑 10', duoResult.top10s.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '킬 수', duoResult.kills.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('총 데미지',
+                                        duoResult.damageDealt.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '승', duoResult.wins.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '패', duoResult.losses.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '어시스트', duoResult.assist.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('헤드샷',
+                                        duoResult.headshotKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '저격', '${duoResult.longestKill}m'),
+                                  ),
+                                  Container(
+                                    child: statsRow('최다 킬',
+                                        duoResult.roundMostKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow('생존 시간',
+                                        duoResult.mostSurvivalTime.toString()),
+                                  ),
+                                  Container(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      color: Colors.deepPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
+                      child: const Text(
+                        'Squad',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 4.0, //그림자 깊이
+                      child: Column(
+                        children: [
+                          Table(
+                            children: [
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow('게임 수',
+                                        squadResult.roundsPlayed.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '탑 10', squadResult.top10s.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '킬 수', squadResult.kills.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('총 데미지',
+                                        squadResult.damageDealt.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '승', squadResult.wins.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow(
+                                        '패', squadResult.losses.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '어시스트', squadResult.assist.toString()),
+                                  ),
+                                  Container(
+                                    child: statsRow('헤드샷',
+                                        squadResult.headshotKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '저격', '${squadResult.longestKill}m'),
+                                  ),
+                                  Container(
+                                    child: statsRow('최다 킬',
+                                        squadResult.roundMostKills.toString()),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Container(
+                                    child: statsRow(
+                                        '생존 시간',
+                                        squadResult.mostSurvivalTime
+                                            .toString()),
+                                  ),
+                                  Container(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -194,27 +489,33 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-Future<PlayerStats> getPlayer(String selectedPlatform, String playerName,
+Future<dynamic> getPlayer(String selectedPlatform, String playerName,
     String apiKey, int selectedSeason) async {
-  Uri url = Uri.parse(
-    "https://api.pubg.com/shards/$selectedPlatform/players?filter[playerNames]=$playerName",
-  );
-  Map<String, String> header = {
-    "Authorization": "Bearer $apiKey",
-    "Accept": "application/vnd.api+json"
-  };
-  var response = await http.get(url, headers: header);
-  print('Response status: ${response.statusCode}');
-  var jsonData = response.body;
-  final playerId = jsonDecode(jsonData)['data'][0]['id'];
-
-  Uri lifeTimeUrl = Uri.parse(
-      "https://api.pubg.com/shards/$selectedPlatform/players/$playerId/seasons/division.bro.official.pc-2018-$selectedSeason?filter[gamepad]=false");
-  var lifeTimeResponse = await http.get(lifeTimeUrl, headers: header);
-  var lifeTimeJsonData = lifeTimeResponse.body;
-  var squadStats = jsonDecode(lifeTimeJsonData)['data']['attributes']
-      ['gameModeStats']['squad'];
-
-  PlayerStats stats = PlayerStats.fromJson(squadStats);
-  return stats;
+  try {
+    Uri url = Uri.parse(
+      "https://api.pubg.com/shards/$selectedPlatform/players?filter[playerNames]=$playerName",
+    );
+    Map<String, String> header = {
+      "Authorization": "Bearer $apiKey",
+      "Accept": "application/vnd.api+json"
+    };
+    var response = await http.get(url, headers: header);
+    print('Response status: ${response.statusCode}');
+    switch (response.statusCode) {
+      case 200:
+        var jsonData = response.body;
+        final playerId = jsonDecode(jsonData)['data'][0]['id'];
+        Uri lifeTimeUrl = Uri.parse(
+            "https://api.pubg.com/shards/$selectedPlatform/players/$playerId/seasons/division.bro.official.pc-2018-$selectedSeason?filter[gamepad]=false");
+        var lifeTimeResponse = await http.get(lifeTimeUrl, headers: header);
+        var lifeTimeJsonData = lifeTimeResponse.body;
+        var stats =
+            jsonDecode(lifeTimeJsonData)['data']['attributes']['gameModeStats'];
+        return stats;
+      default:
+        throw Exception(response.reasonPhrase);
+    }
+  } catch (e) {
+    rethrow;
+  }
 }

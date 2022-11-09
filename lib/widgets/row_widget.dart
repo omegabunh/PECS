@@ -6,11 +6,11 @@ Widget statsRow(String label, String value) {
     child: Row(
       children: [
         Expanded(
-          flex: 3,
+          //flex: 3,
           child: Text(label),
         ),
         Expanded(
-          flex: 4,
+          //flex: 4,
           child: Text(value),
         ),
       ],

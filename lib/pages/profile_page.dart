@@ -127,9 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _nameEditButton() {
     return RoundedButton(
-      name: '',
+      name: '저장',
       height: 50,
-      width: 50,
+      width: 70,
       onPressed: () async {
         if (_registerFormKey.currentState!.validate()) {
           _registerFormKey.currentState!.save();
