@@ -76,6 +76,7 @@ class _ChatPageState extends State<ChatPage> {
         _pageProvider = context.watch<ChatPageProvider>();
         return Scaffold(
           body: SafeArea(
+            bottom: false,
             child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: _deviceWidth * 0.03,

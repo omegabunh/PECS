@@ -207,7 +207,12 @@ class _SearchPageState extends State<SearchPage>
       child: Expanded(
         child: ListView(
           children: [
-            CustomCard(cardColor: Colors.amber, title: 'Solo', size: 20.0),
+            const CustomCard(
+              cardColor: Colors.amber,
+              title: 'Solo',
+              size: 20.0,
+              textColor: Colors.white,
+            ),
             CustomCardTable(
                 roundPlayed: soloResult.roundsPlayed.toString(),
                 top10s: soloResult.top10s.toString(),
@@ -220,7 +225,12 @@ class _SearchPageState extends State<SearchPage>
                 longestKill: soloResult.longestKill.toString(),
                 roundMostKills: soloResult.roundMostKills.toString(),
                 mostSurvivalTime: intToTimeLeft(soloResult.mostSurvivalTime)),
-            CustomCard(cardColor: Colors.green, title: 'Duo', size: 20.0),
+            const CustomCard(
+              cardColor: Colors.green,
+              title: 'Duo',
+              size: 20.0,
+              textColor: Colors.white,
+            ),
             CustomCardTable(
                 roundPlayed: duoResult.roundsPlayed.toString(),
                 top10s: duoResult.top10s.toString(),
@@ -233,8 +243,12 @@ class _SearchPageState extends State<SearchPage>
                 longestKill: duoResult.longestKill.toString(),
                 roundMostKills: duoResult.roundMostKills.toString(),
                 mostSurvivalTime: intToTimeLeft(duoResult.mostSurvivalTime)),
-            CustomCard(
-                cardColor: Colors.deepPurple, title: 'Squad', size: 20.0),
+            const CustomCard(
+              cardColor: Colors.deepPurple,
+              title: 'Squad',
+              size: 20.0,
+              textColor: Colors.white,
+            ),
             CustomCardTable(
                 roundPlayed: squadResult.roundsPlayed.toString(),
                 top10s: squadResult.top10s.toString(),

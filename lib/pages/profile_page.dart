@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _registerForm() {
     return SizedBox(
       height: _deviceHeight * 0.06,
-      width: _deviceHeight * 0.4,
+      width: _deviceHeight * 0.35,
       child: Form(
         key: _registerFormKey,
         child: CustomTextFormField(
