@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 //Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,6 @@ import '../widgets/chat_input_fields.dart';
 //Modles
 import '../models/chat.dart';
 import '../models/chat_message.dart';
-//import '../models/fcm_message.dart';
 
 //Porviders
 import '../providers/authentication_provider.dart';
@@ -58,7 +59,10 @@ class _ChatPageState extends State<ChatPage> {
         providers: [
           ChangeNotifierProvider<ChatPageProvider>(
             create: (_) => ChatPageProvider(
-                widget.chat.uid, _auth, _messagesListViewController),
+              widget.chat.uid,
+              _auth,
+              _messagesListViewController,
+            ),
           )
         ],
         child: _buildUI(),
@@ -71,42 +75,43 @@ class _ChatPageState extends State<ChatPage> {
       builder: (BuildContext context) {
         _pageProvider = context.watch<ChatPageProvider>();
         return Scaffold(
-          body: SingleChildScrollView(
+          body: SafeArea(
             child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: _deviceWidth * 0.03,
-                vertical: _deviceHeight * 0.02,
               ),
               height: _deviceHeight,
               width: _deviceWidth,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TopBar(
-                    widget.chat.title(),
-                    fontSize: 20,
-                    primaryAction: IconButton(
-                      icon: const Icon(
-                        Icons.exit_to_app,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TopBar(
+                      widget.chat.title(),
+                      fontSize: 20,
+                      primaryAction: IconButton(
+                        icon: const Icon(
+                          Icons.exit_to_app,
+                        ),
+                        onPressed: () {
+                          _pageProvider.deleteChat();
+                        },
                       ),
-                      onPressed: () {
-                        _pageProvider.deleteChat();
-                      },
-                    ),
-                    secondaryAction: IconButton(
-                      icon: Icon(
-                        Icons.adaptive.arrow_back,
+                      secondaryAction: IconButton(
+                        icon: Icon(
+                          Icons.adaptive.arrow_back,
+                        ),
+                        onPressed: () {
+                          _pageProvider.goBack();
+                        },
                       ),
-                      onPressed: () {
-                        _pageProvider.goBack();
-                      },
                     ),
-                  ),
-                  _messagesListView(),
-                  _sendMessageForm(),
-                ],
+                    _messagesListView(),
+                    _sendMessageForm(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -131,7 +136,7 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: _pageProvider.messages!.length,
               itemBuilder: (BuildContext context, int index) {
                 ChatMessage message = _pageProvider.messages![index];
-                bool isOwnMessage = message.senderID == _auth.user.uid;
+                bool isOwnMessage = message.senderID == _auth.chatUser.uid;
                 return CustomChatListViewTile(
                   deviceHeight: _deviceHeight,
                   width: _deviceWidth * 0.80,
@@ -164,7 +169,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget _sendMessageForm() {
     late String text;
     return Container(
-      margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
+      margin: const EdgeInsets.only(top: 7.5, right: 15, left: 15),
       child: Form(
         key: _messageFormState,
         child: ChatTextFormField(
@@ -178,12 +183,6 @@ class _ChatPageState extends State<ChatPage> {
             if (_messageFormState.currentState!.validate()) {
               _messageFormState.currentState!.save();
               _pageProvider.sendTextMessage();
-              // fcm 송신
-              // sendNotificationToDriver(
-              //     'token',
-              //     context,
-              //     _auth.user.name,
-              //     text);
               _messageFormState.currentState!.reset();
             }
           },

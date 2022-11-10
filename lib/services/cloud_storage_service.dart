@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, avoid_print
+
 import 'dart:io';
 
 //Packages
@@ -9,7 +11,7 @@ const String USER_COLLECTION = "Users";
 
 class CloudStorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  CloudStorageService() {}
+  CloudStorageService();
 
   Future<String?> saveUserImageToStorage(String uid, PlatformFile file) async {
     try {

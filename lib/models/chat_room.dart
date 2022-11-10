@@ -9,11 +9,11 @@ class ChatRoom {
     required this.number,
   });
 
-  factory ChatRoom.fromJSON(Map<String, dynamic> _json) {
+  factory ChatRoom.fromJSON(Map<String, dynamic> json) {
     return ChatRoom(
-      uid: _json["uid"],
-      roomName: _json["roomName"],
-      number: _json["number"],
+      uid: json["uid"],
+      roomName: json["roomName"],
+      number: json["number"],
     );
   }
   Map<String, dynamic> toMap() {

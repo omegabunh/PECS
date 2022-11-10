@@ -1,6 +1,5 @@
 //Packages
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +9,6 @@ import '../services/database_service.dart';
 //Widgets
 import '../widgets/custom_input_fields.dart';
 import '../widgets/top_bar.dart';
-import '../widgets/rounded_button.dart';
 
 //Pages
 import '../pages/user_page.dart';
@@ -53,51 +51,56 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUI() {
-    uid = _auth.user.uid;
-    name = _auth.user.name;
-    email = _auth.user.email;
+    uid = _auth.chatUser.uid;
+    name = _auth.chatUser.name;
+    email = _auth.chatUser.email;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: _deviceWidth * 0.03,
-          vertical: _deviceHeight * 0.02,
-        ),
-        height: _deviceHeight,
-        width: _deviceWidth,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopBar(
-              'Edit profile',
-              primaryAction: IconButton(
-                icon: Icon(
-                  Icons.adaptive.arrow_forward,
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: _deviceWidth * 0.03,
+          ),
+          height: _deviceHeight,
+          width: _deviceWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar(
+                'Edit profile',
+                primaryAction: IconButton(
+                  icon: Icon(
+                    Icons.adaptive.arrow_forward,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserPage(),
+                      ),
+                    );
+                  },
                 ),
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserPage(),
-                    ),
-                  );
-                },
               ),
-            ),
-            SizedBox(
-              height: _deviceHeight * 0.05,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _registerForm(),
-                _nameEditButton(),
-              ],
-            )
-          ],
+              SizedBox(
+                height: _deviceHeight * 0.05,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _registerForm(),
+                  _nameEditButton(),
+                ],
+              ),
+              SizedBox(
+                height: _deviceHeight * 0.05,
+              ),
+              _emailForm(),
+            ],
+          ),
         ),
       ),
     );
@@ -106,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _registerForm() {
     return SizedBox(
       height: _deviceHeight * 0.06,
-      width: _deviceHeight * 0.35,
+      width: _deviceHeight * 0.4,
       child: Form(
         key: _registerFormKey,
         child: CustomTextFormField(
@@ -126,17 +129,46 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _nameEditButton() {
-    return RoundedButton(
-      name: '저장',
-      height: 50,
-      width: 70,
-      onPressed: () async {
-        if (_registerFormKey.currentState!.validate()) {
-          _registerFormKey.currentState!.save();
-          await _db.updateUser(uid, email, _name!);
-          await _auth.logout();
-        }
-      },
+    return Container(
+      height: _deviceHeight * 0.05,
+      width: _deviceHeight * 0.05,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromRGBO(64, 200, 104, 1.0),
+      ),
+      child: IconButton(
+        onPressed: () async {
+          if (_registerFormKey.currentState!.validate()) {
+            _registerFormKey.currentState!.save();
+            await _db.updateUser(uid, email, _name!);
+            await _auth.logout();
+          }
+        },
+        icon: const Icon(
+          Icons.save_alt,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Widget _emailForm() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            const Expanded(
+              flex: 3,
+              child: Text('이메일'),
+            ),
+            Expanded(
+              flex: 4,
+              child: Text(email),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

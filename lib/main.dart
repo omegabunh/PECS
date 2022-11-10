@@ -53,20 +53,20 @@ class MainApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider<AuthenticationProvider>(
-              create: (BuildContext _context) {
+              create: (BuildContext context) {
                 return AuthenticationProvider();
               },
             )
           ],
           child: MaterialApp(
-            title: 'EsportsCAL',
+            title: 'PECS',
             theme: themeNotifier.isDark ? darkThemeData : lightThemeData,
             navigatorKey: NavigationService.navigatorKey,
             initialRoute: '/login',
             routes: {
-              '/login': (BuildContext _context) => const LoginPage(),
-              '/register': (BuildContext _context) => RegisterPage(),
-              '/home': (BuildContext _context) => const HomePage(),
+              '/login': (BuildContext context) => const LoginPage(),
+              '/register': (BuildContext context) => const RegisterPage(),
+              '/home': (BuildContext context) => const HomePage(),
             },
             debugShowCheckedModeBanner: false,
           ),

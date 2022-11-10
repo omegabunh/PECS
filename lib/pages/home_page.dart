@@ -18,13 +18,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentPage = 0;
-
+  PageController pageController = PageController();
   final List<Widget> _pages = [
     const EsportsPage(),
     const ChatsPage(),
     const SearchPage(),
     const UserPage(),
   ];
+  void _onItemTapped(int index) {
+    pageController.jumpToPage(index);
+  }
+
+  void _onPageChanged(int index) {
+    setState(() => _currentPage = index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +40,16 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildUI() {
     return Scaffold(
-      body: _pages[_currentPage],
+      body: PageView(
+        controller: pageController,
+        onPageChanged: _onPageChanged,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentPage,
-        onTap: (index) {
-          setState(
-            () {
-              _currentPage = index;
-            },
-          );
-        },
+        onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
             label: "Esports",

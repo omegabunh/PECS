@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable
 
 import 'dart:async';
 
@@ -41,7 +41,7 @@ class ChatsPageProvider extends ChangeNotifier {
   void getChats({String? roomName}) async {
     try {
       _chatsStream =
-          _db.getChatsForUser(_auth.user.uid).listen((snapshot) async {
+          _db.getChatsForUser(_auth.chatUser.uid).listen((snapshot) async {
         chats = await Future.wait(
           snapshot.docs.map(
             (d) async {
@@ -77,7 +77,7 @@ class ChatsPageProvider extends ChangeNotifier {
               //Return Chat Instance
               return Chat(
                 uid: d.id,
-                currentUserUid: _auth.user.uid,
+                currentUserUid: _auth.chatUser.uid,
                 members: members,
                 messages: messages,
                 roomName: room.roomName,

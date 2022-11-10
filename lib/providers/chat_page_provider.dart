@@ -96,7 +96,7 @@ class ChatPageProvider extends ChangeNotifier {
       ChatMessage _messageToSend = ChatMessage(
         content: _message!,
         type: MessageType.TEXT,
-        senderID: _auth.user.uid,
+        senderID: _auth.chatUser.uid,
         sentTime: DateTime.now(),
       );
       _db.addMessageToChat(_chatID, _messageToSend);
@@ -108,11 +108,11 @@ class ChatPageProvider extends ChangeNotifier {
       PlatformFile? _file = await _media.pickImageFromLibrary();
       if (_file != null) {
         String? _downloadURL = await _storage.saveChatImageToStorage(
-            _chatID, _auth.user.uid, _file);
+            _chatID, _auth.chatUser.uid, _file);
         ChatMessage _messageToSend = ChatMessage(
           content: _downloadURL!,
           type: MessageType.IMAGE,
-          senderID: _auth.user.uid,
+          senderID: _auth.chatUser.uid,
           sentTime: DateTime.now(),
         );
         _db.addMessageToChat(_chatID, _messageToSend);

@@ -14,11 +14,14 @@ class EsportsPage extends StatefulWidget {
   }
 }
 
-class _EsportsPageState extends State<EsportsPage> {
-  late double _deviceHeight;
-  late double _deviceWidth;
-  final Completer<WebViewController> _controller =
+class _EsportsPageState extends State<EsportsPage>
+    with AutomaticKeepAliveClientMixin {
+  late WebViewController _controller;
+  final Completer<WebViewController> _completerController =
       Completer<WebViewController>();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -30,29 +33,32 @@ class _EsportsPageState extends State<EsportsPage> {
 
   @override
   Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
-  }
-
-  Widget _buildUI() {
-    var screenHeight = MediaQuery.of(context).size.height;
+    super.build(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         bottom: false,
-        child: Builder(
-          builder: (BuildContext context) {
-            return WebView(
-              initialUrl: 'https://www.pubgesports.com/',
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-            );
-          },
+        child: WillPopScope(
+          onWillPop: () => _goBack(context),
+          child: WebView(
+            initialUrl: 'https://www.pubgesports.com/',
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _completerController.future.then((value) => _controller = value);
+              _completerController.complete(webViewController);
+            },
+          ),
         ),
       ),
     );
+  }
+
+  Future<bool> _goBack(BuildContext context) async {
+    if (await _controller.canGoBack()) {
+      _controller.goBack();
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
   }
 }

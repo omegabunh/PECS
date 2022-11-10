@@ -7,10 +7,10 @@ class ChatList {
     required this.roomName,
   });
 
-  factory ChatList.fromJSON(Map<String, dynamic> _json) {
+  factory ChatList.fromJSON(Map<String, dynamic> json) {
     return ChatList(
-      uid: _json["uid"],
-      roomName: _json["roomName"],
+      uid: json["uid"],
+      roomName: json["roomName"],
     );
   }
   Map<String, dynamic> toMap() {

@@ -9,11 +9,11 @@ class ChatUser {
     required this.email,
   });
 
-  factory ChatUser.fromJSON(Map<String, dynamic> _json) {
+  factory ChatUser.fromJSON(Map<String, dynamic> json) {
     return ChatUser(
-      uid: _json["uid"],
-      name: _json["name"],
-      email: _json["email"],
+      uid: json["uid"],
+      name: json["name"],
+      email: json["email"],
     );
   }
   Map<String, dynamic> toMap() {

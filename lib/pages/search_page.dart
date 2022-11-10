@@ -1,15 +1,16 @@
-import 'dart:convert';
-
 //Packages
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+
+//Services
+import '../services/database_service.dart';
+import '../services/intToTime_service.dart';
 
 //Widgets
 import '../widgets/top_bar.dart';
 import '../widgets/custom_input_fields.dart';
-import '../widgets/row_widget.dart';
+import '../widgets/custom_card.dart';
 
 //Porviders
 import '../providers/authentication_provider.dart';
@@ -26,7 +27,8 @@ class SearchPage extends StatefulWidget {
   }
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   late double _deviceHeight;
   late double _deviceWidth;
   late AuthenticationProvider _auth;
@@ -34,18 +36,27 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchFieldTextEditingController =
       TextEditingController();
 
-  String playerName = '';
   String? apiKey = dotenv.env['apiKey'];
+
+  String playerName = '';
+
   List<String> platformList = ['steam', 'kakao'];
   String selectedPlatform = 'steam';
-  List<int> seasonList = [for (int i = 1; i <= 20; i++) i];
+
+  List<int> seasonList = [for (int i = 1; i <= 25; i++) i];
+
   int selectedSeason = 20;
+  bool _visibility = false;
   PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   PlayerStats duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
@@ -65,7 +76,6 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {});
   }
 
-  bool _visibility = false;
   void _show() {
     setState(() {
       _visibility = true;
@@ -80,442 +90,166 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildUI() {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: _deviceWidth * 0.03,
-          vertical: _deviceHeight * 0.02,
-        ),
-        height: _deviceHeight,
-        width: _deviceWidth,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopBar(
-              'Search',
-              primaryAction: IconButton(
-                icon: const Icon(
-                  Icons.logout,
-                ),
-                onPressed: () {
-                  _auth.logout();
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text('Season'),
-                const SizedBox(width: 10),
-                DropdownButton(
-                  value: selectedSeason,
-                  items: seasonList.map((int item) {
-                    return DropdownMenuItem<int>(
-                      value: item,
-                      child: Text(item.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedSeason = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                DropdownButton(
-                  value: selectedPlatform,
-                  items: platformList.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      selectedPlatform = value;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: _deviceHeight * 0.07,
-                  width: _deviceWidth * 0.65,
-                  child: CustomTextField(
-                    onEditingComplete: (value) {
-                      playerName = value;
-                      FocusScope.of(context).unfocus();
-                      //_callAPI();
-                      getPlayerData(selectedPlatform, playerName, apiKey!,
-                          selectedSeason);
-                      _searchFieldTextEditingController.clear();
-                      _visibility ? _hide() : _show();
-                    },
-                    hintText: "닉네임을 입력하세요.",
-                    obscureText: false,
-                    controller: _searchFieldTextEditingController,
-                    icon: Icons.search,
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: _deviceWidth * 0.03,
+          ),
+          height: _deviceHeight,
+          width: _deviceWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar(
+                'Search',
+                primaryAction: IconButton(
+                  icon: const Icon(
+                    Icons.logout,
                   ),
-                ),
-              ],
-            ),
-            Visibility(
-              visible: _visibility,
-              child: Expanded(
-                child: ListView(
-                  children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: Text(
-                        playerName,
-                        style: const TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: const Text(
-                        'Solo',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: Column(
-                        children: [
-                          Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow('게임 수',
-                                        soloResult.roundsPlayed.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '탑 10', soloResult.top10s.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '킬 수', soloResult.kills.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('총 데미지',
-                                        soloResult.damageDealt.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '승', soloResult.wins.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '패', soloResult.losses.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '어시스트', soloResult.assist.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('헤드샷',
-                                        soloResult.headshotKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '저격', '${soloResult.longestKill}m'),
-                                  ),
-                                  Container(
-                                    child: statsRow('최다 킬',
-                                        soloResult.roundMostKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow('생존 시간',
-                                        soloResult.mostSurvivalTime.toString()),
-                                  ),
-                                  Container(),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      color: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: const Text(
-                        'Duo',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: Column(
-                        children: [
-                          Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow('게임 수',
-                                        duoResult.roundsPlayed.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '탑 10', duoResult.top10s.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '킬 수', duoResult.kills.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('총 데미지',
-                                        duoResult.damageDealt.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '승', duoResult.wins.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '패', duoResult.losses.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '어시스트', duoResult.assist.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('헤드샷',
-                                        duoResult.headshotKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '저격', '${duoResult.longestKill}m'),
-                                  ),
-                                  Container(
-                                    child: statsRow('최다 킬',
-                                        duoResult.roundMostKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow('생존 시간',
-                                        duoResult.mostSurvivalTime.toString()),
-                                  ),
-                                  Container(),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      color: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: const Text(
-                        'Squad',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 4.0, //그림자 깊이
-                      child: Column(
-                        children: [
-                          Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow('게임 수',
-                                        squadResult.roundsPlayed.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '탑 10', squadResult.top10s.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '킬 수', squadResult.kills.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('총 데미지',
-                                        squadResult.damageDealt.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '승', squadResult.wins.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow(
-                                        '패', squadResult.losses.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '어시스트', squadResult.assist.toString()),
-                                  ),
-                                  Container(
-                                    child: statsRow('헤드샷',
-                                        squadResult.headshotKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '저격', '${squadResult.longestKill}m'),
-                                  ),
-                                  Container(
-                                    child: statsRow('최다 킬',
-                                        squadResult.roundMostKills.toString()),
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Container(
-                                    child: statsRow(
-                                        '생존 시간',
-                                        squadResult.mostSurvivalTime
-                                            .toString()),
-                                  ),
-                                  Container(),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  onPressed: () {
+                    _auth.logout();
+                  },
                 ),
               ),
-            ),
-          ],
+              _seasonSelect(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _platformSelect(),
+                  _playerSearch(),
+                ],
+              ),
+              Visibility(
+                visible: _visibility,
+                child: CustomCard(title: playerName, size: 40.0),
+              ),
+              _playerData(),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-Future<dynamic> getPlayer(String selectedPlatform, String playerName,
-    String apiKey, int selectedSeason) async {
-  try {
-    Uri url = Uri.parse(
-      "https://api.pubg.com/shards/$selectedPlatform/players?filter[playerNames]=$playerName",
+  Widget _seasonSelect() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text('Season'),
+        const SizedBox(width: 10),
+        DropdownButton(
+          value: selectedSeason,
+          items: seasonList.map((int item) {
+            return DropdownMenuItem<int>(
+              value: item,
+              child: Text(item.toString()),
+            );
+          }).toList(),
+          onChanged: (dynamic value) {
+            setState(() {
+              selectedSeason = value;
+            });
+          },
+        ),
+      ],
     );
-    Map<String, String> header = {
-      "Authorization": "Bearer $apiKey",
-      "Accept": "application/vnd.api+json"
-    };
-    var response = await http.get(url, headers: header);
-    print('Response status: ${response.statusCode}');
-    switch (response.statusCode) {
-      case 200:
-        var jsonData = response.body;
-        final playerId = jsonDecode(jsonData)['data'][0]['id'];
-        Uri lifeTimeUrl = Uri.parse(
-            "https://api.pubg.com/shards/$selectedPlatform/players/$playerId/seasons/division.bro.official.pc-2018-$selectedSeason?filter[gamepad]=false");
-        var lifeTimeResponse = await http.get(lifeTimeUrl, headers: header);
-        var lifeTimeJsonData = lifeTimeResponse.body;
-        var stats =
-            jsonDecode(lifeTimeJsonData)['data']['attributes']['gameModeStats'];
-        return stats;
-      default:
-        throw Exception(response.reasonPhrase);
-    }
-  } catch (e) {
-    rethrow;
+  }
+
+  Widget _platformSelect() {
+    return DropdownButton(
+      value: selectedPlatform,
+      items: platformList.map((String item) {
+        return DropdownMenuItem<String>(
+          value: item,
+          child: Text(item),
+        );
+      }).toList(),
+      onChanged: (dynamic value) {
+        setState(() {
+          selectedPlatform = value;
+        });
+      },
+    );
+  }
+
+  Widget _playerSearch() {
+    return SizedBox(
+      height: _deviceHeight * 0.07,
+      width: _deviceWidth * 0.65,
+      child: CustomTextField(
+        onEditingComplete: (value) {
+          if (_searchFieldTextEditingController.text.isNotEmpty) {
+            playerName = value;
+            FocusScope.of(context).unfocus();
+            getPlayerData(
+                selectedPlatform, playerName, apiKey!, selectedSeason);
+            //_searchFieldTextEditingController.clear();
+            _show();
+          } else {
+            _hide();
+          }
+        },
+        hintText: "닉네임을 입력하세요.",
+        obscureText: false,
+        controller: _searchFieldTextEditingController,
+        icon: Icons.search,
+      ),
+    );
+  }
+
+  Widget _playerData() {
+    return Visibility(
+      visible: _visibility,
+      child: Expanded(
+        child: ListView(
+          children: [
+            CustomCard(cardColor: Colors.amber, title: 'Solo', size: 20.0),
+            CustomCardTable(
+                roundPlayed: soloResult.roundsPlayed.toString(),
+                top10s: soloResult.top10s.toString(),
+                kills: soloResult.kills.toString(),
+                damageDealt: soloResult.damageDealt.toString(),
+                wins: soloResult.wins.toString(),
+                losses: soloResult.losses.toString(),
+                assists: soloResult.assist.toString(),
+                headShotKills: soloResult.headshotKills.toString(),
+                longestKill: soloResult.longestKill.toString(),
+                roundMostKills: soloResult.roundMostKills.toString(),
+                mostSurvivalTime: intToTimeLeft(soloResult.mostSurvivalTime)),
+            CustomCard(cardColor: Colors.green, title: 'Duo', size: 20.0),
+            CustomCardTable(
+                roundPlayed: duoResult.roundsPlayed.toString(),
+                top10s: duoResult.top10s.toString(),
+                kills: duoResult.kills.toString(),
+                damageDealt: duoResult.damageDealt.toString(),
+                wins: duoResult.wins.toString(),
+                losses: duoResult.losses.toString(),
+                assists: duoResult.assist.toString(),
+                headShotKills: duoResult.headshotKills.toString(),
+                longestKill: duoResult.longestKill.toString(),
+                roundMostKills: duoResult.roundMostKills.toString(),
+                mostSurvivalTime: intToTimeLeft(duoResult.mostSurvivalTime)),
+            CustomCard(
+                cardColor: Colors.deepPurple, title: 'Squad', size: 20.0),
+            CustomCardTable(
+                roundPlayed: squadResult.roundsPlayed.toString(),
+                top10s: squadResult.top10s.toString(),
+                kills: squadResult.kills.toString(),
+                damageDealt: squadResult.damageDealt.toString(),
+                wins: squadResult.wins.toString(),
+                losses: squadResult.losses.toString(),
+                assists: squadResult.assist.toString(),
+                headShotKills: squadResult.headshotKills.toString(),
+                longestKill: squadResult.longestKill.toString(),
+                roundMostKills: squadResult.roundMostKills.toString(),
+                mostSurvivalTime: intToTimeLeft(squadResult.mostSurvivalTime)),
+          ],
+        ),
+      ),
+    );
   }
 }

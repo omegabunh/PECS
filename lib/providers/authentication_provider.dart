@@ -1,6 +1,6 @@
-//Packages
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, body_might_complete_normally_nullable
 
+//Packages
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -18,21 +18,21 @@ class AuthenticationProvider extends ChangeNotifier {
   late final NavigationService _navigationService;
   late final DatabaseService _databaseService;
 
-  late ChatUser user;
+  late ChatUser chatUser;
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
     _navigationService = GetIt.instance.get<NavigationService>();
     _databaseService = GetIt.instance.get<DatabaseService>();
-    _auth.authStateChanges().listen((_user) {
-      if (_user != null) {
-        _databaseService.getUser(_user.uid).then(
-          (_snapshot) {
+    _auth.authStateChanges().listen((user) {
+      if (user != null) {
+        _databaseService.getUser(user.uid).then(
+          (snapshot) {
             Map<String, dynamic> userData =
-                _snapshot.data()! as Map<String, dynamic>;
-            user = ChatUser.fromJSON(
+                snapshot.data()! as Map<String, dynamic>;
+            chatUser = ChatUser.fromJSON(
               {
-                "uid": _user.uid,
+                "uid": user.uid,
                 "name": userData["name"],
                 "email": userData["email"],
               },

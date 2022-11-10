@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 //Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,37 +62,38 @@ class _ChatsPageState extends State<ChatsPage> {
     return Builder(builder: (BuildContext context) {
       _pageProvider = context.watch<ChatsPageProvider>();
       return Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: _deviceWidth * 0.03,
-            vertical: _deviceHeight * 0.02,
-          ),
-          height: _deviceHeight,
-          width: _deviceWidth,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TopBar(
-                'Chats',
-                primaryAction: IconButton(
-                  icon: const Icon(
-                    Icons.logout,
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: _deviceWidth * 0.03,
+            ),
+            height: _deviceHeight,
+            width: _deviceWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TopBar(
+                  'Chats',
+                  primaryAction: IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                    ),
+                    onPressed: () {
+                      _auth.logout();
+                    },
                   ),
-                  onPressed: () {
-                    _auth.logout();
-                  },
                 ),
-              ),
-              _chatList(),
-            ],
+                _chatList(),
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _navigation.navigateToPage(
-              ChatListPage(),
+              const ChatListPage(),
             );
           },
           child: const Icon(

@@ -1,3 +1,4 @@
+// ignore_for_file: unused_field
 //Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +88,7 @@ class _ChatListPageState extends State<ChatListPage> {
                   },
                 ),
               ),
-              _chatList(_auth.user.uid),
+              _chatList(_auth.chatUser.uid),
             ],
           ),
         ),

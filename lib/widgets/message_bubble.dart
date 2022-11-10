@@ -61,7 +61,6 @@ class TextMessageBubble extends StatelessWidget {
       style: const TextStyle(
         color: Colors.black,
       ),
-      //selectionControls: MyMaterialTextSelectionControls(),
     );
   }
 }
@@ -80,7 +79,7 @@ class ImageMessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DecorationImage _image = DecorationImage(
+    DecorationImage image = DecorationImage(
         image: NetworkImage(message.content), fit: BoxFit.cover);
     return Container(
       padding: EdgeInsets.symmetric(
@@ -103,11 +102,11 @@ class ImageMessageBubble extends StatelessWidget {
               height: height,
               width: width,
               child: Hero(
-                tag: '$_image',
+                tag: '$image',
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    image: _image,
+                    image: image,
                   ),
                 ),
               ),
@@ -121,7 +120,7 @@ class ImageMessageBubble extends StatelessWidget {
                       body: GestureDetector(
                         child: Center(
                           child: Hero(
-                            tag: '$_image',
+                            tag: '$image',
                             child: PinchZoom(
                               resetDuration: const Duration(milliseconds: 100),
                               maxScale: 3,

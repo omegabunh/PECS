@@ -1,6 +1,6 @@
-//Packages
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, avoid_print
 
+//Packages
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

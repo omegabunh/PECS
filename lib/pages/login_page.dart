@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       height: _deviceHeight * 0.10,
       child: const Text(
-        'EsportsCAL',
+        'PECS',
         style: TextStyle(
           color: Color.fromRGBO(64, 127, 104, 1.0),
           fontSize: 40,
