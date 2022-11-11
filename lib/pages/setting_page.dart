@@ -67,10 +67,9 @@ class _SettingPageState extends State<SettingPage> {
                   SizedBox(
                     height: _deviceHeight * 0.05,
                   ),
-                  SizedBox(
-                    width: _deviceWidth * 0.7,
+                  Card(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Text('테마 변경'),
                         Switch.adaptive(

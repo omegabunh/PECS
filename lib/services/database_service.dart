@@ -120,6 +120,16 @@ class DatabaseService {
     }
   }
 
+  Future<void> leaveChat(String chatID, String uid) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(chatID).update({
+        "members": FieldValue.arrayRemove([uid]),
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> addMemberToRoom(String roomId, String uid) async {
     try {
       await _db.collection(CHAT_COLLECTION).doc(roomId).update({

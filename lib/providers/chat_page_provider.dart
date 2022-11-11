@@ -128,6 +128,11 @@ class ChatPageProvider extends ChangeNotifier {
     _db.deleteChat(_chatID);
   }
 
+  void leaveChat() {
+    goBack();
+    _db.leaveChat(_chatID, _auth.chatUser.uid);
+  }
+
   void goBack() {
     _navigation.goBack();
   }

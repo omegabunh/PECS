@@ -67,13 +67,13 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TopBar(
                 'Edit profile',
-                primaryAction: IconButton(
+                secondaryAction: IconButton(
                   icon: Icon(
-                    Icons.adaptive.arrow_forward,
+                    Icons.adaptive.arrow_back,
                   ),
                   onPressed: () {
                     Navigator.pop(
@@ -84,17 +84,28 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
+                primaryAction: IconButton(
+                  icon: const Icon(Icons.save_alt),
+                  onPressed: () async {
+                    if (_registerFormKey.currentState!.validate()) {
+                      _registerFormKey.currentState!.save();
+                      await _db.updateUser(uid, email, _name!);
+                      await _auth.logout();
+                    }
+                  },
+                ),
               ),
               SizedBox(
                 height: _deviceHeight * 0.05,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _registerForm(),
-                  _nameEditButton(),
-                ],
+              const Text(
+                '닉네임',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
+              SizedBox(
+                height: _deviceHeight * 0.01,
+              ),
+              _registerForm(),
               SizedBox(
                 height: _deviceHeight * 0.05,
               ),
@@ -108,8 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _registerForm() {
     return SizedBox(
-      height: _deviceHeight * 0.06,
-      width: _deviceHeight * 0.35,
       child: Form(
         key: _registerFormKey,
         child: CustomTextFormField(
@@ -123,30 +132,6 @@ class _ProfilePageState extends State<ProfilePage> {
           obscureText: false,
           message: '2~6자 이내의 이름을 입력해주십시요.',
           type: TextInputType.text,
-        ),
-      ),
-    );
-  }
-
-  Widget _nameEditButton() {
-    return Container(
-      height: _deviceHeight * 0.05,
-      width: _deviceHeight * 0.05,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color.fromRGBO(64, 200, 104, 1.0),
-      ),
-      child: IconButton(
-        onPressed: () async {
-          if (_registerFormKey.currentState!.validate()) {
-            _registerFormKey.currentState!.save();
-            await _db.updateUser(uid, email, _name!);
-            await _auth.logout();
-          }
-        },
-        icon: const Icon(
-          Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

@@ -83,36 +83,42 @@ class _ChatPageState extends State<ChatPage> {
               ),
               height: _deviceHeight,
               width: _deviceWidth,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TopBar(
-                      widget.chat.title(),
-                      fontSize: 20,
-                      primaryAction: IconButton(
-                        icon: const Icon(
-                          Icons.exit_to_app,
-                        ),
-                        onPressed: () {
-                          _pageProvider.deleteChat();
-                        },
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TopBar(
+                    widget.chat.title(),
+                    fontSize: 20,
+                    primaryAction: IconButton(
+                      icon: const Icon(
+                        Icons.exit_to_app,
                       ),
-                      secondaryAction: IconButton(
-                        icon: Icon(
-                          Icons.adaptive.arrow_back,
-                        ),
-                        onPressed: () {
-                          _pageProvider.goBack();
-                        },
-                      ),
+                      onPressed: () {
+                        _pageProvider.leaveChat();
+                      },
                     ),
-                    _messagesListView(),
-                    _sendMessageForm(),
-                  ],
-                ),
+                    secondaryAction: IconButton(
+                      icon: Icon(
+                        Icons.adaptive.arrow_back,
+                      ),
+                      onPressed: () {
+                        _pageProvider.goBack();
+                      },
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                        child: Column(
+                      children: [
+                        _messagesListView(),
+                        _sendMessageForm(),
+                      ],
+                    )),
+                  ),
+                ],
               ),
             ),
           ),
@@ -170,7 +176,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget _sendMessageForm() {
     late String text;
     return Container(
-      margin: const EdgeInsets.only(top: 7.5, right: 15, left: 15),
+      margin: const EdgeInsets.only(top: 7.5, right: 15, left: 15, bottom: 7.5),
       child: Form(
         key: _messageFormState,
         child: ChatTextFormField(

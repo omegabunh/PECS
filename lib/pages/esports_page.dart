@@ -47,6 +47,7 @@ class _EsportsPageState extends State<EsportsPage>
               _completerController.future.then((value) => _controller = value);
               _completerController.complete(webViewController);
             },
+            gestureNavigationEnabled: true,
           ),
         ),
       ),
