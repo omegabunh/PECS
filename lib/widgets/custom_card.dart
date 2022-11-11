@@ -51,6 +51,7 @@ class CustomCardTable extends StatelessWidget {
   final String longestKill;
   final String roundMostKills;
   final String mostSurvivalTime;
+  final String averageDeal;
 
   const CustomCardTable({
     super.key,
@@ -65,6 +66,7 @@ class CustomCardTable extends StatelessWidget {
     required this.longestKill,
     required this.roundMostKills,
     required this.mostSurvivalTime,
+    required this.averageDeal,
   });
 
   @override
@@ -79,13 +81,15 @@ class CustomCardTable extends StatelessWidget {
           children: [
             Table(
               border: TableBorder.all(
-                  width: 0.1, borderRadius: BorderRadius.circular(15.0)),
+                width: 0.1,
+                borderRadius: BorderRadius.circular(15.0),
+              ),
               children: [
                 TableRow(
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: const Text('게임 수'),
                     ),
                     Container(
@@ -95,7 +99,7 @@ class CustomCardTable extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: const Text('탑 10'),
                     ),
                     Container(
@@ -109,31 +113,7 @@ class CustomCardTable extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: const Text('킬 수'),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Text(kills),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: const Text('총 데미지'),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Text(damageDealt),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
                       child: const Text('승'),
                     ),
                     Container(
@@ -143,7 +123,7 @@ class CustomCardTable extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: const Text('패'),
                     ),
                     Container(
@@ -157,17 +137,17 @@ class CustomCardTable extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: const Text('어시스트'),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: const Text('킬 수'),
                     ),
                     Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Text(assists),
+                      child: Text(kills),
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: const Text('헤드샷'),
                     ),
                     Container(
@@ -181,7 +161,31 @@ class CustomCardTable extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: const Text('최다 킬'),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Text(roundMostKills),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: const Text('어시스트'),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Text(assists),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: const Text('저격'),
                     ),
                     Container(
@@ -191,21 +195,7 @@ class CustomCardTable extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: const Text('최다 킬'),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Text(roundMostKills),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
                       child: const Text('생존 시간'),
                     ),
                     Container(
@@ -213,8 +203,30 @@ class CustomCardTable extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 6),
                       child: Text(mostSurvivalTime),
                     ),
-                    Container(),
-                    Container(),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: const Text('평균 딜량'),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Text(averageDeal),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: const Text('총 데미지'),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Text(damageDealt),
+                    ),
                   ],
                 ),
               ],
