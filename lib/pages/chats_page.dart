@@ -17,7 +17,6 @@ import '../pages/chat_page.dart';
 import '../pages/chat_list_page.dart';
 
 //Widgets
-import '../widgets/top_bar.dart';
 import '../widgets/custom_list_view_tiles.dart';
 
 //Models
@@ -62,6 +61,29 @@ class _ChatsPageState extends State<ChatsPage> {
     return Builder(builder: (BuildContext context) {
       _pageProvider = context.watch<ChatsPageProvider>();
       return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: const Text(
+            'Chats',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.logout,
+              ),
+              onPressed: () {
+                _auth.logout();
+              },
+            ),
+          ],
+        ),
+        extendBodyBehindAppBar: true,
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -74,17 +96,6 @@ class _ChatsPageState extends State<ChatsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TopBar(
-                  'Chats',
-                  primaryAction: IconButton(
-                    icon: const Icon(
-                      Icons.logout,
-                    ),
-                    onPressed: () {
-                      _auth.logout();
-                    },
-                  ),
-                ),
                 _chatList(),
               ],
             ),

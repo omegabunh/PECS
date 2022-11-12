@@ -8,7 +8,6 @@ import '../services/database_service.dart';
 
 //Widgets
 import '../widgets/custom_input_fields.dart';
-import '../widgets/top_bar.dart';
 
 //Pages
 import '../pages/user_page.dart';
@@ -56,6 +55,36 @@ class _ProfilePageState extends State<ProfilePage> {
     email = _auth.chatUser.email;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: const Text(
+          'Edit profile',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.all(15),
+            child: InkWell(
+              child: const Text(
+                '완료',
+                style: TextStyle(fontSize: 16),
+              ),
+              onTap: () async {
+                if (_registerFormKey.currentState!.validate()) {
+                  _registerFormKey.currentState!.save();
+                  await _db.updateUser(uid, email, _name!);
+                  await _auth.logout();
+                }
+              },
+            ),
+          )
+        ],
+      ),
+      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
@@ -69,32 +98,6 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(
-                'Edit profile',
-                secondaryAction: IconButton(
-                  icon: Icon(
-                    Icons.adaptive.arrow_back,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserPage(),
-                      ),
-                    );
-                  },
-                ),
-                primaryAction: IconButton(
-                  icon: const Icon(Icons.save_alt),
-                  onPressed: () async {
-                    if (_registerFormKey.currentState!.validate()) {
-                      _registerFormKey.currentState!.save();
-                      await _db.updateUser(uid, email, _name!);
-                      await _auth.logout();
-                    }
-                  },
-                ),
-              ),
               SizedBox(
                 height: _deviceHeight * 0.05,
               ),

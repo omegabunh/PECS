@@ -1,4 +1,5 @@
 //Packages
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,6 @@ import '../services/database_service.dart';
 import '../services/intToTime_service.dart';
 
 //Widgets
-import '../widgets/top_bar.dart';
-import '../widgets/custom_input_fields.dart';
 import '../widgets/custom_card.dart';
 
 //Porviders
@@ -90,6 +89,29 @@ class _SearchPageState extends State<SearchPage>
 
   Widget _buildUI() {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: const Text(
+          'Search',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+            ),
+            onPressed: () {
+              _auth.logout();
+            },
+          ),
+        ],
+      ),
+      extendBodyBehindAppBar: true,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -102,17 +124,6 @@ class _SearchPageState extends State<SearchPage>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopBar(
-                'Search',
-                primaryAction: IconButton(
-                  icon: const Icon(
-                    Icons.logout,
-                  ),
-                  onPressed: () {
-                    _auth.logout();
-                  },
-                ),
-              ),
               _seasonSelect(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -178,25 +189,22 @@ class _SearchPageState extends State<SearchPage>
 
   Widget _playerSearch() {
     return SizedBox(
-      height: _deviceHeight * 0.07,
       width: _deviceWidth * 0.65,
-      child: CustomTextField(
-        onEditingComplete: (value) {
+      child: CupertinoSearchTextField(
+        placeholder: '닉네임을 입력하세요.',
+        onSubmitted: (value) {
           if (_searchFieldTextEditingController.text.isNotEmpty) {
             playerName = value;
             FocusScope.of(context).unfocus();
             getPlayerData(
                 selectedPlatform, playerName, apiKey!, selectedSeason);
-            //_searchFieldTextEditingController.clear();
             _show();
           } else {
             _hide();
           }
         },
-        hintText: "닉네임을 입력하세요.",
-        obscureText: false,
         controller: _searchFieldTextEditingController,
-        icon: Icons.search,
+        autocorrect: false,
       ),
     );
   }

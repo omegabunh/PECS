@@ -43,8 +43,8 @@ class _SplashPageState extends State<SplashPage> {
     return MaterialApp(
       title: 'PECS',
       theme: ThemeData(
-        backgroundColor: const Color.fromRGBO(155, 217, 191, 1.0),
-        scaffoldBackgroundColor: const Color.fromRGBO(155, 217, 191, 1.0),
+        backgroundColor: const Color(0xff191919),
+        scaffoldBackgroundColor: const Color(0xff191919),
       ),
       home: Scaffold(
         body: Center(

@@ -75,51 +75,52 @@ class _ChatPageState extends State<ChatPage> {
       builder: (BuildContext context) {
         _pageProvider = context.watch<ChatPageProvider>();
         return Scaffold(
-          body: SafeArea(
-            bottom: false,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: _deviceWidth * 0.03,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: Center(
+              child: Text(
+                widget.chat.title(),
+                style: const TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              height: _deviceHeight,
-              width: _deviceWidth,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TopBar(
-                    widget.chat.title(),
-                    fontSize: 20,
-                    primaryAction: IconButton(
-                      icon: const Icon(
-                        Icons.exit_to_app,
-                      ),
-                      onPressed: () {
-                        _pageProvider.leaveChat();
-                      },
-                    ),
-                    secondaryAction: IconButton(
-                      icon: Icon(
-                        Icons.adaptive.arrow_back,
-                      ),
-                      onPressed: () {
-                        _pageProvider.goBack();
-                      },
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: SingleChildScrollView(
-                        child: Column(
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.output_rounded,
+                ),
+                onPressed: () {
+                  _pageProvider.leaveChat();
+                },
+              ),
+            ],
+          ),
+          extendBodyBehindAppBar: true,
+          body: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: _deviceWidth * 0.03,
+            ),
+            height: _deviceHeight,
+            width: _deviceWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
                         _messagesListView(),
                         _sendMessageForm(),
                       ],
-                    )),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -136,7 +137,7 @@ class _ChatPageState extends State<ChatPage> {
           radius: const Radius.circular(34.0),
           radiusWhileDragging: Radius.zero,
           child: SizedBox(
-            height: _deviceHeight * 0.74,
+            height: _deviceHeight * 0.9,
             child: ListView.builder(
               shrinkWrap: true,
               controller: _messagesListViewController,
@@ -176,7 +177,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget _sendMessageForm() {
     late String text;
     return Container(
-      margin: const EdgeInsets.only(top: 7.5, right: 15, left: 15, bottom: 7.5),
+      margin: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
       child: Form(
         key: _messageFormState,
         child: ChatTextFormField(

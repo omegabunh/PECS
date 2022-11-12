@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//Widgets
-import '../widgets/top_bar.dart';
-
 //Pages
 import '../pages/user_page.dart';
 
@@ -35,6 +32,18 @@ class _SettingPageState extends State<SettingPage> {
     return Consumer<ThemeModel>(
       builder: (context, ThemeModel themeNotifier, child) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: const Text(
+              'Setting',
+              style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          extendBodyBehindAppBar: true,
           resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Container(
@@ -48,22 +57,6 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TopBar(
-                    'Setting',
-                    primaryAction: IconButton(
-                      icon: Icon(
-                        Icons.adaptive.arrow_forward,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const UserPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
                   SizedBox(
                     height: _deviceHeight * 0.05,
                   ),

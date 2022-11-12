@@ -16,7 +16,6 @@ import '../services/database_service.dart';
 import '../pages/chats_page.dart';
 
 //Widgets
-import '../widgets/top_bar.dart';
 import '../widgets/custom_list_view_tiles.dart';
 
 //Models
@@ -60,6 +59,17 @@ class _ChatListPageState extends State<ChatListPage> {
     return Builder(builder: (BuildContext context) {
       _pageProvider = context.watch<ChatListPageProvider>();
       return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: const Text(
+            'ChatList',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         body: Container(
           padding: EdgeInsets.symmetric(
             horizontal: _deviceWidth * 0.03,
@@ -72,22 +82,6 @@ class _ChatListPageState extends State<ChatListPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TopBar(
-                'ChatList',
-                primaryAction: IconButton(
-                  icon: Icon(
-                    Icons.adaptive.arrow_forward,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChatsPage(),
-                      ),
-                    );
-                  },
-                ),
-              ),
               _chatList(_auth.chatUser.uid),
             ],
           ),

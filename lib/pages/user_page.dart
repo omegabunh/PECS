@@ -11,7 +11,6 @@ import '../services/cloud_storage_service.dart';
 
 //Widgets
 import '../widgets/rounded_button.dart';
-import '../widgets/top_bar.dart';
 
 //Providers
 import '../providers/authentication_provider.dart';
@@ -62,30 +61,44 @@ class _UserPageState extends State<UserPage> {
 
     return Builder(
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: _deviceWidth * 0.03,
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: const Text(
+              'User',
+              style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            height: _deviceHeight,
-            width: _deviceWidth,
-            child: Column(
-              children: [
-                TopBar(
-                  'User',
-                  primaryAction: IconButton(
-                    icon: const Icon(
-                      Icons.logout,
-                    ),
-                    onPressed: () {
-                      _auth.logout();
-                    },
-                  ),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.logout,
                 ),
-                _logoutButton(),
-                _profileEditButton(),
-                _settingButton(),
-              ],
+                onPressed: () {
+                  _auth.logout();
+                },
+              ),
+            ],
+          ),
+          extendBodyBehindAppBar: true,
+          body: SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: _deviceWidth * 0.03,
+              ),
+              height: _deviceHeight,
+              width: _deviceWidth,
+              child: Column(
+                children: [
+                  _logoutButton(),
+                  _profileEditButton(),
+                  _settingButton(),
+                ],
+              ),
             ),
           ),
         );
