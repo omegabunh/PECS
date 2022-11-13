@@ -139,7 +139,7 @@ class _UserPageState extends State<UserPage> {
           ),
         );
       },
-      text: "프로필 편집",
+      text: "프로필 수정",
       leftIcon: const Icon(
         Icons.app_registration_outlined,
         color: Colors.black45,

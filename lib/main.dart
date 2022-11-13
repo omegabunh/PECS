@@ -18,6 +18,7 @@ import './pages/splash_page.dart';
 import './pages/login_page.dart';
 import './pages/register_page.dart';
 import './pages/home_page.dart';
+import './pages/forgat_password_page.dart';
 
 //Models
 import './models/theme.dart';
@@ -66,6 +67,7 @@ class MainApp extends StatelessWidget {
             routes: {
               '/login': (BuildContext context) => const LoginPage(),
               '/register': (BuildContext context) => const RegisterPage(),
+              '/password': (BuildContext context) => ForgotPasswordPage(),
               '/home': (BuildContext context) => const HomePage(),
             },
             debugShowCheckedModeBanner: false,

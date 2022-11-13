@@ -64,6 +64,50 @@ class AuthenticationProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code.toString() == 'invalid-email') {
+        Fluttertoast.showToast(
+          msg: "이메일형식이 아닙니다.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 10,
+        );
+      }
+
+      if (e.code.toString() == 'missing-email') {
+        Fluttertoast.showToast(
+          msg: "이메일을 잘못 입력하였습니다.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 10,
+        );
+      }
+
+      if (e.code.toString() == 'user-not-found') {
+        Fluttertoast.showToast(
+          msg: "유저를 찾을 수 없습니다.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 10,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<String?> registerUserUsingEmailAndPassword(
       String email, String password) async {
     try {
