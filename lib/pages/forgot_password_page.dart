@@ -24,12 +24,9 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPage extends State<ForgotPasswordPage> {
   late AuthenticationProvider _auth;
   late double _deviceHeight;
-  late double _deviceWidth;
   String? _email;
   final _loginFormKey = GlobalKey<FormState>();
   late NavigationService _navigation;
-  final TextEditingController _searchFieldTextEditingController =
-      TextEditingController();
 
   Widget _buildUI() {
     return Scaffold(
@@ -92,7 +89,6 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
     _navigation = GetIt.instance.get<NavigationService>();
     return _buildUI();
