@@ -14,9 +14,9 @@ const String CHAT_COLLECTION = "Chats";
 const String MESSAGES_COLLECTION = "Messages";
 
 class DatabaseService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
   DatabaseService();
+
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> createUser(String uid, String email, String name) async {
     try {

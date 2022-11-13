@@ -1,8 +1,4 @@
 class ChatUser {
-  final String uid;
-  final String name;
-  final String email;
-
   ChatUser({
     required this.uid,
     required this.name,
@@ -16,6 +12,11 @@ class ChatUser {
       email: json["email"],
     );
   }
+
+  final String email;
+  final String name;
+  final String uid;
+
   Map<String, dynamic> toMap() {
     return {
       "email": email,

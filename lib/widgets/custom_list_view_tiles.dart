@@ -13,12 +13,6 @@ import '../models/chat_user.dart';
 import '../models/chat_message.dart';
 
 class CustomListViewTile extends StatelessWidget {
-  final double height;
-  final String title;
-  final String subtitle;
-  final bool isSelected;
-  final Function onTap;
-
   CustomListViewTile({
     Key? key,
     required this.height,
@@ -27,6 +21,12 @@ class CustomListViewTile extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   }) : super(key: key);
+
+  final double height;
+  final bool isSelected;
+  final Function onTap;
+  final String subtitle;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +55,6 @@ class CustomListViewTile extends StatelessWidget {
 }
 
 class CustomListViewTileWithActivity extends StatelessWidget {
-  final double height;
-  final String title;
-  final String subtitle;
-  final Function onTap;
-
   CustomListViewTileWithActivity({
     Key? key,
     required this.height,
@@ -67,6 +62,11 @@ class CustomListViewTileWithActivity extends StatelessWidget {
     required this.subtitle,
     required this.onTap,
   }) : super(key: key);
+
+  final double height;
+  final Function onTap;
+  final String subtitle;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +88,6 @@ class CustomListViewTileWithActivity extends StatelessWidget {
 }
 
 class CustomChatListViewTile extends StatelessWidget {
-  final double width;
-  final double deviceHeight;
-  final bool isOwnMessage;
-  final ChatMessage message;
-  final ChatUser sender;
-
   CustomChatListViewTile({
     Key? key,
     required this.width,
@@ -102,6 +96,12 @@ class CustomChatListViewTile extends StatelessWidget {
     required this.message,
     required this.sender,
   }) : super(key: key);
+
+  final double deviceHeight;
+  final bool isOwnMessage;
+  final ChatMessage message;
+  final ChatUser sender;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -167,11 +167,6 @@ class CustomChatListViewTile extends StatelessWidget {
 }
 
 class CustomProfileTile extends StatelessWidget {
-  final double height;
-  final String title;
-  final String imagePath;
-  final bool isActive;
-
   CustomProfileTile(
       {Key? key,
       required this.height,
@@ -179,6 +174,11 @@ class CustomProfileTile extends StatelessWidget {
       required this.imagePath,
       required this.isActive})
       : super(key: key);
+
+  final double height;
+  final String imagePath;
+  final bool isActive;
+  final String title;
 
   @override
   Widget build(BuildContext context) {

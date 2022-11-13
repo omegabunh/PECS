@@ -1,7 +1,4 @@
 class ChatList {
-  final String uid;
-  final String roomName;
-
   ChatList({
     required this.uid,
     required this.roomName,
@@ -13,6 +10,10 @@ class ChatList {
       roomName: json["roomName"],
     );
   }
+
+  final String roomName;
+  final String uid;
+
   Map<String, dynamic> toMap() {
     return {
       "roomName": roomName,

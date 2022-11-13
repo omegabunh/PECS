@@ -9,9 +9,6 @@ import '../services/database_service.dart';
 //Widgets
 import '../widgets/custom_input_fields.dart';
 
-//Pages
-import '../pages/user_page.dart';
-
 //Providers
 import '../providers/authentication_provider.dart';
 
@@ -25,29 +22,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late double _deviceHeight;
-  late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late DatabaseService _db;
-
-  late String uid;
   late String email;
   late String name;
   late String profileImage;
+  late String uid;
 
+  late AuthenticationProvider _auth;
+  late DatabaseService _db;
+  late double _deviceHeight;
+  late double _deviceWidth;
   String? _name;
-
   final _registerFormKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _db = GetIt.instance.get<DatabaseService>();
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     uid = _auth.chatUser.uid;
@@ -158,5 +143,14 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _db = GetIt.instance.get<DatabaseService>();
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    return _buildUI();
   }
 }

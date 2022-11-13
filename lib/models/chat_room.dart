@@ -1,8 +1,4 @@
 class ChatRoom {
-  final String uid;
-  final String roomName;
-  final int number;
-
   ChatRoom({
     required this.uid,
     required this.roomName,
@@ -16,6 +12,11 @@ class ChatRoom {
       number: json["number"],
     );
   }
+
+  final int number;
+  final String roomName;
+  final String uid;
+
   Map<String, dynamic> toMap() {
     return {
       "roomName": roomName,

@@ -28,39 +28,26 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
+  String? apiKey = dotenv.env['apiKey'];
+  PlayerStats duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  List<String> platformList = ['steam', 'kakao'];
+  String playerName = '';
+  List<int> seasonList = [for (int i = 1; i <= 25; i++) i];
+  String selectedPlatform = 'steam';
+  int selectedSeason = 20;
+  PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-  late AuthenticationProvider _auth;
-
   final TextEditingController _searchFieldTextEditingController =
       TextEditingController();
 
-  String? apiKey = dotenv.env['apiKey'];
-
-  String playerName = '';
-
-  List<String> platformList = ['steam', 'kakao'];
-  String selectedPlatform = 'steam';
-
-  List<int> seasonList = [for (int i = 1; i <= 25; i++) i];
-
-  int selectedSeason = 20;
   bool _visibility = false;
-  PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  PlayerStats duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    return _buildUI();
-  }
 
   void getPlayerData(String selectedPlatform, String playerName, String apiKey,
       int selectedSeason) async {
@@ -282,5 +269,14 @@ class _SearchPageState extends State<SearchPage>
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    return _buildUI();
   }
 }

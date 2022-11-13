@@ -28,32 +28,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  late AuthenticationProvider _auth;
+  late CloudStorageService _cloudStorage;
+  late DatabaseService _db;
   late double _deviceHeight;
   late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late DatabaseService _db;
-  late CloudStorageService _cloudStorage;
-  late NavigationService _navigation;
-
   String? _email;
-  String? _password;
   String? _name;
-
+  late NavigationService _navigation;
+  String? _password;
   PlatformFile? _profileImage;
-
   final _registerFormKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _db = GetIt.instance.get<DatabaseService>();
-    _cloudStorage = GetIt.instance.get<CloudStorageService>();
-    _navigation = GetIt.instance.get<NavigationService>();
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     return Scaffold(
@@ -153,5 +138,16 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _db = GetIt.instance.get<DatabaseService>();
+    _cloudStorage = GetIt.instance.get<CloudStorageService>();
+    _navigation = GetIt.instance.get<NavigationService>();
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    return _buildUI();
   }
 }

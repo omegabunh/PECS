@@ -4,13 +4,6 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final Function(String) onSaved;
-  final String regEx;
-  final String hintText;
-  final bool obscureText;
-  final String message;
-  final TextInputType type;
-
   CustomTextFormField({
     Key? key,
     required this.onSaved,
@@ -20,6 +13,13 @@ class CustomTextFormField extends StatelessWidget {
     required this.message,
     required this.type,
   }) : super(key: key);
+
+  final String hintText;
+  final String message;
+  final bool obscureText;
+  final Function(String) onSaved;
+  final String regEx;
+  final TextInputType type;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +47,6 @@ class CustomTextFormField extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
-  final Function(String) onEditingComplete;
-  final String hintText;
-  final bool obscureText;
-  final TextEditingController controller;
-  IconData? icon;
-
   CustomTextField(
       {Key? key,
       required this.onEditingComplete,
@@ -61,6 +55,12 @@ class CustomTextField extends StatelessWidget {
       required this.controller,
       this.icon})
       : super(key: key);
+
+  final TextEditingController controller;
+  final String hintText;
+  IconData? icon;
+  final bool obscureText;
+  final Function(String) onEditingComplete;
 
   @override
   Widget build(BuildContext context) {

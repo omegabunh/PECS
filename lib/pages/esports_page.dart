@@ -16,18 +16,28 @@ class EsportsPage extends StatefulWidget {
 
 class _EsportsPageState extends State<EsportsPage>
     with AutomaticKeepAliveClientMixin {
-  late WebViewController _controller;
   final Completer<WebViewController> _completerController =
       Completer<WebViewController>();
 
-  @override
-  bool get wantKeepAlive => true;
+  late WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  Future<bool> _goBack(BuildContext context) async {
+    if (await _controller.canGoBack()) {
+      _controller.goBack();
+      return Future.value(false);
+    } else {
+      return Future.value(true);
     }
   }
 
@@ -52,14 +62,5 @@ class _EsportsPageState extends State<EsportsPage>
         ),
       ),
     );
-  }
-
-  Future<bool> _goBack(BuildContext context) async {
-    if (await _controller.canGoBack()) {
-      _controller.goBack();
-      return Future.value(false);
-    } else {
-      return Future.value(true);
-    }
   }
 }

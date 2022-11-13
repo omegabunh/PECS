@@ -9,11 +9,6 @@ enum MessageType {
 }
 
 class ChatMessage {
-  final String senderID;
-  final MessageType type;
-  final String content;
-  final DateTime sentTime;
-
   ChatMessage(
       {required this.content,
       required this.type,
@@ -39,6 +34,11 @@ class ChatMessage {
       sentTime: json["sent_time"].toDate(),
     );
   }
+
+  final String content;
+  final String senderID;
+  final DateTime sentTime;
+  final MessageType type;
 
   Map<String, dynamic> toJson() {
     String messageType;

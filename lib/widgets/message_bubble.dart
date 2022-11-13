@@ -8,16 +8,25 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 import '../models/chat_message.dart';
 
 class TextMessageBubble extends StatelessWidget {
-  final bool isOwnMessage;
-  final ChatMessage message;
-  final double height;
-  final double width;
-
   const TextMessageBubble(
       {required this.isOwnMessage,
       required this.message,
       required this.height,
       required this.width});
+
+  final double height;
+  final bool isOwnMessage;
+  final ChatMessage message;
+  final double width;
+
+  Widget _platformText() {
+    return SelectableText(
+      message.content,
+      style: const TextStyle(
+        color: Colors.black,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,28 +63,19 @@ class TextMessageBubble extends StatelessWidget {
       ),
     );
   }
-
-  Widget _platformText() {
-    return SelectableText(
-      message.content,
-      style: const TextStyle(
-        color: Colors.black,
-      ),
-    );
-  }
 }
 
 class ImageMessageBubble extends StatelessWidget {
-  final bool isOwnMessage;
-  final ChatMessage message;
-  final double height;
-  final double width;
-
   const ImageMessageBubble(
       {required this.isOwnMessage,
       required this.message,
       required this.height,
       required this.width});
+
+  final double height;
+  final bool isOwnMessage;
+  final ChatMessage message;
+  final double width;
 
   @override
   Widget build(BuildContext context) {

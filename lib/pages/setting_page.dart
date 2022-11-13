@@ -21,13 +21,6 @@ class _SettingPageState extends State<SettingPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
-  }
-
   Widget _buildUI() {
     return Consumer<ThemeModel>(
       builder: (context, ThemeModel themeNotifier, child) {
@@ -85,5 +78,12 @@ class _SettingPageState extends State<SettingPage> {
         );
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    return _buildUI();
   }
 }

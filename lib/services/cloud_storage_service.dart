@@ -10,8 +10,9 @@ import 'package:file_picker/file_picker.dart';
 const String USER_COLLECTION = "Users";
 
 class CloudStorageService {
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   CloudStorageService();
+
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<String?> saveUserImageToStorage(String uid, PlatformFile file) async {
     try {

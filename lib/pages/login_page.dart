@@ -23,25 +23,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late NavigationService _navigation;
-
-  final _loginFormKey = GlobalKey<FormState>();
-
   String? _email;
+  final _loginFormKey = GlobalKey<FormState>();
+  late NavigationService _navigation;
   String? _password;
-
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     return Scaffold(
@@ -64,7 +52,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             _loginForm(),
             SizedBox(
-              height: _deviceHeight * 0.05,
+              height: _deviceHeight * 0.02,
+            ),
+            _forgotPasswordButton(),
+            SizedBox(
+              height: _deviceHeight * 0.02,
             ),
             _loginButton(),
             SizedBox(
@@ -101,33 +93,42 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomTextFormField(
-              onSaved: (value) {
-                setState(() {
-                  _email = value;
-                });
-              },
-              regEx:
-                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`₩{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-              hintText: 'Email',
-              obscureText: false,
-              message: '이메일을 입력해주십시요.',
-              type: TextInputType.emailAddress,
+            Flexible(
+              flex: 1,
+              child: CustomTextFormField(
+                onSaved: (value) {
+                  setState(() {
+                    _email = value;
+                  });
+                },
+                regEx:
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`₩{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                hintText: 'Email',
+                obscureText: false,
+                message: '이메일을 입력해주십시요.',
+                type: TextInputType.emailAddress,
+              ),
             ),
             const SizedBox(
               height: 5,
             ),
-            CustomTextFormField(
-              onSaved: (value) {
-                setState(() {
-                  _password = value;
-                });
-              },
-              regEx: r".{8,}",
-              hintText: 'Password',
-              obscureText: true,
-              message: '비밀번호 8자리 이상 입력해주십시요.',
-              type: TextInputType.visiblePassword,
+            Flexible(
+              flex: 1,
+              child: CustomTextFormField(
+                onSaved: (value) {
+                  setState(() {
+                    _password = value;
+                  });
+                },
+                regEx: r".{8,}",
+                hintText: 'Password',
+                obscureText: true,
+                message: '비밀번호 8자리 이상 입력해주십시요.',
+                type: TextInputType.visiblePassword,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
             ),
           ],
         ),
@@ -149,6 +150,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _forgotPasswordButton() {
+    return TextButton(
+      onPressed: () => _navigation.navigateToRoute('/password'),
+      child: const Text(
+        '비밀번호를 잊어버리셨나요?',
+      ),
+    );
+  }
+
   Widget _registerAccountLink() {
     return GestureDetector(
       onTap: () => _navigation.navigateToRoute('/register'),
@@ -159,5 +169,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
+    return _buildUI();
   }
 }

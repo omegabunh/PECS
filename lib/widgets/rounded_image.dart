@@ -4,14 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class RoundedImageNetwork extends StatelessWidget {
-  final String imagePath;
-  final double size;
-
   const RoundedImageNetwork({
     required Key key,
     required this.imagePath,
     required this.size,
   }) : super(key: key);
+
+  final String imagePath;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,14 @@ class RoundedImageNetwork extends StatelessWidget {
 }
 
 class RoundedImageFile extends StatelessWidget {
-  final File image;
-  final double size;
-
   const RoundedImageFile({
     required Key key,
     required this.image,
     required this.size,
   }) : super(key: key);
+
+  final File image;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +62,12 @@ class RoundedImageFile extends StatelessWidget {
 }
 
 class RoundedInImageFile extends StatelessWidget {
-  final double size;
-
   const RoundedInImageFile({
     required Key key,
     required this.size,
   }) : super(key: key);
+
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +89,14 @@ class RoundedInImageFile extends StatelessWidget {
 }
 
 class RoundedUserImageFile extends StatelessWidget {
-  final double size;
-  final String imagePath;
-
   const RoundedUserImageFile({
     required Key key,
     required this.imagePath,
     required this.size,
   }) : super(key: key);
+
+  final String imagePath;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -118,14 +118,14 @@ class RoundedUserImageFile extends StatelessWidget {
 }
 
 class RoundedImageNetworkWithStatusIndicator extends RoundedImageNetwork {
-  final bool isActive;
-
   const RoundedImageNetworkWithStatusIndicator({
     required Key key,
     required String imagePath,
     required double size,
     required this.isActive,
   }) : super(key: key, imagePath: imagePath, size: size);
+
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {

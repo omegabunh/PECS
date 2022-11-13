@@ -31,29 +31,12 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  late double _deviceHeight;
-  late double _deviceWidth;
   late AuthenticationProvider _auth;
   late DatabaseService _db;
+  late double _deviceHeight;
+  late double _deviceWidth;
   late NavigationService _navigation;
   late ChatListPageProvider _pageProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _db = GetIt.instance.get<DatabaseService>();
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ChatListPageProvider>(
-          create: (_) => ChatListPageProvider(_auth),
-        )
-      ],
-      child: _buildUI(),
-    );
-  }
 
   Widget _buildUI() {
     return Builder(builder: (BuildContext context) {
@@ -151,5 +134,22 @@ class _ChatListPageState extends State<ChatListPage> {
         );
       }
     }());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _db = GetIt.instance.get<DatabaseService>();
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ChatListPageProvider>(
+          create: (_) => ChatListPageProvider(_auth),
+        )
+      ],
+      child: _buildUI(),
+    );
   }
 }
