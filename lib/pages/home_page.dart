@@ -17,25 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentPage = 0;
   PageController pageController = PageController();
+
+  int _currentPage = 0;
   final List<Widget> _pages = [
     const EsportsPage(),
     const ChatsPage(),
     const SearchPage(),
     const UserPage(),
   ];
+
   void _onItemTapped(int index) {
     pageController.jumpToPage(index);
   }
 
   void _onPageChanged(int index) {
     setState(() => _currentPage = index);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildUI();
   }
 
   Widget _buildUI() {
@@ -78,5 +75,10 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildUI();
   }
 }

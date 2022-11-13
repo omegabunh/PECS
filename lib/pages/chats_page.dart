@@ -34,28 +34,11 @@ class ChatsPage extends StatefulWidget {
 }
 
 class _ChatsPageState extends State<ChatsPage> {
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
   late NavigationService _navigation;
   late ChatsPageProvider _pageProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ChatsPageProvider>(
-          create: (_) => ChatsPageProvider(_auth),
-        )
-      ],
-      child: _buildUI(),
-    );
-  }
 
   Widget _buildUI() {
     return Builder(builder: (BuildContext context) {
@@ -159,5 +142,21 @@ class _ChatsPageState extends State<ChatsPage> {
             ChatPage(chat: chat),
           );
         });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ChatsPageProvider>(
+          create: (_) => ChatsPageProvider(_auth),
+        )
+      ],
+      child: _buildUI(),
+    );
   }
 }

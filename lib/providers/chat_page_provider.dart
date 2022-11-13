@@ -21,32 +21,6 @@ import '../providers/authentication_provider.dart';
 import '../models/chat_message.dart';
 
 class ChatPageProvider extends ChangeNotifier {
-  late DatabaseService _db;
-  late CloudStorageService _storage;
-  late MediaService _media;
-  late NavigationService _navigation;
-
-  late StreamSubscription _messagesStream;
-  late StreamSubscription _keyboardVisibilityStream;
-  late KeyboardVisibilityController _keyboardVisibilityController;
-
-  AuthenticationProvider _auth;
-  ScrollController _messagesListViewController;
-
-  String _chatID;
-  List<ChatMessage>? messages;
-
-  String? _message;
-
-  String get message {
-    // ignore: recursive_getters
-    return message;
-  }
-
-  set message(String _value) {
-    _message = _value;
-  }
-
   ChatPageProvider(this._chatID, this._auth, this._messagesListViewController) {
     _db = GetIt.instance.get<DatabaseService>();
     _storage = GetIt.instance.get<CloudStorageService>();
@@ -56,10 +30,33 @@ class ChatPageProvider extends ChangeNotifier {
     listenToMessages();
   }
 
+  List<ChatMessage>? messages;
+
+  AuthenticationProvider _auth;
+  String _chatID;
+  late DatabaseService _db;
+  late KeyboardVisibilityController _keyboardVisibilityController;
+  late StreamSubscription _keyboardVisibilityStream;
+  late MediaService _media;
+  String? _message;
+  ScrollController _messagesListViewController;
+  late StreamSubscription _messagesStream;
+  late NavigationService _navigation;
+  late CloudStorageService _storage;
+
   @override
   void dispose() {
     _messagesStream.cancel();
     super.dispose();
+  }
+
+  String get message {
+    // ignore: recursive_getters
+    return message;
+  }
+
+  set message(String _value) {
+    _message = _value;
   }
 
   void listenToMessages() {

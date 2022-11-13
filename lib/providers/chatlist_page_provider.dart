@@ -15,22 +15,22 @@ import '../providers/authentication_provider.dart';
 import '../models/chat_room.dart';
 
 class ChatListPageProvider extends ChangeNotifier {
-  final AuthenticationProvider _auth;
-
-  late DatabaseService _db;
-  late NavigationService _navigation;
-  List<ChatRoom>? chats;
-  late List<ChatRoom> _selectedRoom;
-
-  List<ChatRoom> get selectedUsers {
-    return _selectedRoom;
-  }
-
   ChatListPageProvider(this._auth) {
     _db = GetIt.instance.get<DatabaseService>();
     _selectedRoom = [];
     _navigation = GetIt.instance.get<NavigationService>();
     getChatList();
+  }
+
+  List<ChatRoom>? chats;
+
+  final AuthenticationProvider _auth;
+  late DatabaseService _db;
+  late NavigationService _navigation;
+  late List<ChatRoom> _selectedRoom;
+
+  List<ChatRoom> get selectedUsers {
+    return _selectedRoom;
   }
 
   void getChatList({String? roomName}) async {

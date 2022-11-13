@@ -2,11 +2,6 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  final String name;
-  final double height;
-  final double width;
-  final Function onPressed;
-
   const RoundedButton({
     super.key,
     required this.name,
@@ -14,6 +9,11 @@ class RoundedButton extends StatelessWidget {
     required this.width,
     required this.onPressed,
   });
+
+  final double height;
+  final String name;
+  final Function onPressed;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +37,6 @@ class RoundedButton extends StatelessWidget {
 }
 
 class CustomTextButton extends StatelessWidget {
-  final Function() onPressed;
-  final String text;
-  final double height;
-  final double width;
-  final Icon leftIcon;
-  final Icon rightIcon;
-
   const CustomTextButton({
     Key? key,
     required this.onPressed,
@@ -53,6 +46,13 @@ class CustomTextButton extends StatelessWidget {
     required this.leftIcon,
     required this.rightIcon,
   }) : super(key: key);
+
+  final double height;
+  final Icon leftIcon;
+  final Function() onPressed;
+  final Icon rightIcon;
+  final String text;
+  final double width;
 
   @override
   Widget build(BuildContext context) {

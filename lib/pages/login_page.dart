@@ -23,25 +23,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late NavigationService _navigation;
-
-  final _loginFormKey = GlobalKey<FormState>();
-
   String? _email;
+  final _loginFormKey = GlobalKey<FormState>();
+  late NavigationService _navigation;
   String? _password;
-
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     return Scaffold(
@@ -181,5 +169,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
+    return _buildUI();
   }
 }

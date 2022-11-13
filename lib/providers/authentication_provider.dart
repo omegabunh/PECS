@@ -14,12 +14,6 @@ import '../services/navigation_service.dart';
 import '../models/chat_user.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
-  late final FirebaseAuth _auth;
-  late final NavigationService _navigationService;
-  late final DatabaseService _databaseService;
-
-  late ChatUser chatUser;
-
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
     _navigationService = GetIt.instance.get<NavigationService>();
@@ -45,6 +39,12 @@ class AuthenticationProvider extends ChangeNotifier {
       }
     });
   }
+
+  late ChatUser chatUser;
+
+  late final FirebaseAuth _auth;
+  late final DatabaseService _databaseService;
+  late final NavigationService _navigationService;
 
   Future<void> loginUsingEmailAndPassword(String email, String password) async {
     try {

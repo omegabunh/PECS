@@ -4,13 +4,6 @@
 import 'package:flutter/material.dart';
 
 class ChatTextFormField extends StatelessWidget {
-  final Function(String) onSaved;
-  final String regEx;
-  final String message;
-  final Function() send;
-  final Function() imageSend;
-  final double size;
-
   const ChatTextFormField({
     required this.onSaved,
     required this.regEx,
@@ -19,6 +12,13 @@ class ChatTextFormField extends StatelessWidget {
     required this.imageSend,
     required this.size,
   });
+
+  final Function() imageSend;
+  final String message;
+  final Function(String) onSaved;
+  final String regEx;
+  final Function() send;
+  final double size;
 
   @override
   Widget build(BuildContext context) {

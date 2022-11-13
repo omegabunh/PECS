@@ -2,11 +2,6 @@
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
-  final String title;
-  final double size;
-  final Color? cardColor;
-  final Color? textColor;
-
   const CustomCard({
     super.key,
     required this.title,
@@ -14,6 +9,11 @@ class CustomCard extends StatelessWidget {
     this.cardColor,
     this.textColor,
   });
+
+  final Color? cardColor;
+  final double size;
+  final Color? textColor;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +40,6 @@ class CustomCard extends StatelessWidget {
 }
 
 class CustomCardTable extends StatelessWidget {
-  final String roundPlayed;
-  final String top10s;
-  final String kills;
-  final String damageDealt;
-  final String wins;
-  final String losses;
-  final String assists;
-  final String headShotKills;
-  final String longestKill;
-  final String roundMostKills;
-  final String mostSurvivalTime;
-  final String averageDeal;
-
   const CustomCardTable({
     super.key,
     required this.roundPlayed,
@@ -68,6 +55,19 @@ class CustomCardTable extends StatelessWidget {
     required this.mostSurvivalTime,
     required this.averageDeal,
   });
+
+  final String assists;
+  final String averageDeal;
+  final String damageDealt;
+  final String headShotKills;
+  final String kills;
+  final String longestKill;
+  final String losses;
+  final String mostSurvivalTime;
+  final String roundMostKills;
+  final String roundPlayed;
+  final String top10s;
+  final String wins;
 
   @override
   Widget build(BuildContext context) {

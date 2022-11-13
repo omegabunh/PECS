@@ -18,9 +18,9 @@ import '../providers/authentication_provider.dart';
 import '../providers/chat_page_provider.dart';
 
 class ChatPage extends StatefulWidget {
-  final Chat chat;
-
   const ChatPage({super.key, required this.chat});
+
+  final Chat chat;
 
   @override
   State<StatefulWidget> createState() {
@@ -29,44 +29,18 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late ChatPageProvider _pageProvider;
-
   late GlobalKey<FormState> _messageFormState;
   late ScrollController _messagesListViewController;
+  late ChatPageProvider _pageProvider;
 
   @override
   void initState() {
     super.initState();
     _messageFormState = GlobalKey<FormState>();
     _messagesListViewController = ScrollController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ChatPageProvider>(
-            create: (_) => ChatPageProvider(
-              widget.chat.uid,
-              _auth,
-              _messagesListViewController,
-            ),
-          )
-        ],
-        child: _buildUI(),
-      ),
-    );
   }
 
   Widget _buildUI() {
@@ -197,6 +171,30 @@ class _ChatPageState extends State<ChatPage> {
             _pageProvider.sendImageMessage();
           },
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ChatPageProvider>(
+            create: (_) => ChatPageProvider(
+              widget.chat.uid,
+              _auth,
+              _messagesListViewController,
+            ),
+          )
+        ],
+        child: _buildUI(),
       ),
     );
   }

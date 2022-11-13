@@ -12,12 +12,12 @@ import '../services/cloud_storage_service.dart';
 import '../services/database_service.dart';
 
 class SplashPage extends StatefulWidget {
-  final VoidCallback onInitializationComplete;
-
   const SplashPage({
     required Key key,
     required this.onInitializationComplete,
   }) : super(key: key);
+
+  final VoidCallback onInitializationComplete;
 
   @override
   State<StatefulWidget> createState() {
@@ -35,6 +35,29 @@ class _SplashPageState extends State<SplashPage> {
           (_) => widget.onInitializationComplete(),
         );
       },
+    );
+  }
+
+  Future<void> _setup() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    _registerServices();
+  }
+
+  void _registerServices() {
+    GetIt.instance.registerSingleton<NavigationService>(
+      NavigationService(),
+    );
+    GetIt.instance.registerSingleton<MediaService>(
+      MediaService(),
+    );
+    GetIt.instance.registerSingleton<CloudStorageService>(
+      CloudStorageService(),
+    );
+    GetIt.instance.registerSingleton<DatabaseService>(
+      DatabaseService(),
     );
   }
 
@@ -60,29 +83,6 @@ class _SplashPageState extends State<SplashPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _setup() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    _registerServices();
-  }
-
-  void _registerServices() {
-    GetIt.instance.registerSingleton<NavigationService>(
-      NavigationService(),
-    );
-    GetIt.instance.registerSingleton<MediaService>(
-      MediaService(),
-    );
-    GetIt.instance.registerSingleton<CloudStorageService>(
-      CloudStorageService(),
-    );
-    GetIt.instance.registerSingleton<DatabaseService>(
-      DatabaseService(),
     );
   }
 }

@@ -29,30 +29,17 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  late double _deviceHeight;
-  late double _deviceWidth;
-
-  late AuthenticationProvider _auth;
-  late DatabaseService _db;
-  late CloudStorageService _cloudStorage;
-
-  late String uid;
   late String email;
   late String name;
+  late String uid;
 
+  late AuthenticationProvider _auth;
+  late CloudStorageService _cloudStorage;
+  late DatabaseService _db;
+  late double _deviceHeight;
+  late double _deviceWidth;
   String? _name;
-
   final _registerFormKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _db = GetIt.instance.get<DatabaseService>();
-    _cloudStorage = GetIt.instance.get<CloudStorageService>();
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     uid = _auth.chatUser.uid;
@@ -139,7 +126,7 @@ class _UserPageState extends State<UserPage> {
           ),
         );
       },
-      text: "프로필 수정",
+      text: "프로필 보기",
       leftIcon: const Icon(
         Icons.app_registration_outlined,
         color: Colors.black45,
@@ -177,5 +164,15 @@ class _UserPageState extends State<UserPage> {
         size: 25,
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _db = GetIt.instance.get<DatabaseService>();
+    _cloudStorage = GetIt.instance.get<CloudStorageService>();
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    return _buildUI();
   }
 }

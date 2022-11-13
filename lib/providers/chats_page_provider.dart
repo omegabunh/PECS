@@ -20,17 +20,16 @@ import '../models/chat_user.dart';
 import '../models/chat_room.dart';
 
 class ChatsPageProvider extends ChangeNotifier {
-  final AuthenticationProvider _auth;
-
-  late DatabaseService _db;
-  late StreamSubscription _chatsStream;
-
-  List<Chat>? chats;
-
   ChatsPageProvider(this._auth) {
     _db = GetIt.instance.get<DatabaseService>();
     getChats();
   }
+
+  List<Chat>? chats;
+
+  final AuthenticationProvider _auth;
+  late StreamSubscription _chatsStream;
+  late DatabaseService _db;
 
   @override
   void dispose() {

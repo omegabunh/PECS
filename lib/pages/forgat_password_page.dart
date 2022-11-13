@@ -22,23 +22,14 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPage extends State<ForgotPasswordPage> {
+  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
-  late NavigationService _navigation;
-  late AuthenticationProvider _auth;
   String? _email;
   final _loginFormKey = GlobalKey<FormState>();
-
+  late NavigationService _navigation;
   final TextEditingController _searchFieldTextEditingController =
       TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
-    return _buildUI();
-  }
 
   Widget _buildUI() {
     return Scaffold(
@@ -96,5 +87,14 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
+    return _buildUI();
   }
 }
