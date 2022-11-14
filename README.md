@@ -39,6 +39,6 @@ PUBG Esports, Chat and Search
 - 프로젝트에 google-services.json, GoogleService-Info.plist가 없다면 실행되지 않습니다.
 - https://developer.pubg.com/ 에서 API Key를 발급받은 후 assets 폴더에 config 폴더 생성 
   -> .env파일을 만들어 apiKey= 를 입력하고 여기에 발급받은 API Key를 입력하고 저장.
-- API key가 없다면 search page의 기능을 사용할 수 없습니다.
+- API key가 없다면 실행되지 않습니다.
 - Firebase console에서 Authentication, Firestore Database, Storage 사용 설정.
 - terminal에서 flutter run 실행
