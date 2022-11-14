@@ -48,9 +48,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ThemeModel(),
-      child: Consumer<ThemeModel>(
-          builder: (context, ThemeModel themeNotifier, child) {
+      create: (_) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+          builder: (context, ThemeProvider themeNotifier, child) {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider<AuthenticationProvider>(

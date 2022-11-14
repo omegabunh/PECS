@@ -2,9 +2,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 //Services
-import '../services/database_service.dart';
+import '../providers/search_page_provider.dart';
 import '../services/time.dart';
 
 //Widgets
@@ -25,103 +26,78 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
   String? apiKey = dotenv.env['apiKey'];
-  PlayerStats duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  late PlayerStats duoResult;
   List<String> platformList = ['steam', 'kakao'];
   String playerName = '';
   List<int> seasonList = [for (int i = 1; i <= 25; i++) i];
   String selectedPlatform = 'steam';
   int selectedSeason = 20;
-  PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  late PlayerStats soloResult;
+  late PlayerStats squadResult;
 
   late double _deviceHeight;
   late double _deviceWidth;
+  late SearchPageProvider _pageProvider;
   final TextEditingController _searchFieldTextEditingController =
       TextEditingController();
-
-  bool _visibility = false;
 
   @override
   bool get wantKeepAlive => true;
 
-  void getPlayerData(String selectedPlatform, String playerName, String apiKey,
-      int selectedSeason) async {
-    var stats =
-        await getPlayer(selectedPlatform, playerName, apiKey, selectedSeason);
-    PlayerStats soloStats = PlayerStats.fromJson(stats['solo']);
-    PlayerStats duoStats = PlayerStats.fromJson(stats['duo']);
-    PlayerStats squadStats = PlayerStats.fromJson(stats['squad']);
-    soloResult = soloStats;
-    duoResult = duoStats;
-    squadResult = squadStats;
-    setState(() {});
-  }
-
-  void _show() {
-    setState(() {
-      _visibility = true;
-    });
-  }
-
-  void _hide() {
-    setState(() {
-      _visibility = false;
-    });
-  }
-
   Widget _buildUI() {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: const Text(
-          'Search',
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+    return Builder(builder: (BuildContext context) {
+      _pageProvider = context.watch<SearchPageProvider>();
+      soloResult = _pageProvider.soloResult;
+      duoResult = _pageProvider.duoResult;
+      squadResult = _pageProvider.squadResult;
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: const Text(
+            'Search',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      extendBodyBehindAppBar: true,
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: _deviceWidth * 0.03,
-          ),
-          height: _deviceHeight,
-          width: _deviceWidth,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _seasonSelect(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  _platformSelect(),
-                  _playerSearch(),
-                ],
-              ),
-              Visibility(
-                visible: _visibility,
-                child: CustomCard(title: playerName, size: 40.0),
-              ),
-              _playerData(),
-            ],
+        extendBodyBehindAppBar: true,
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: _deviceWidth * 0.03,
+            ),
+            height: _deviceHeight,
+            width: _deviceWidth,
+            child: Column(
+              children: [
+                _seasonSelect(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _platformSelect(),
+                    _playerSearch(),
+                  ],
+                ),
+                Visibility(
+                  visible: _pageProvider.visibility,
+                  child: CustomCard(title: playerName, size: 40.0),
+                ),
+                _playerData(),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _seasonSelect() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text('Season'),
         const SizedBox(width: 10),
@@ -165,15 +141,16 @@ class _SearchPageState extends State<SearchPage>
       width: _deviceWidth * 0.65,
       child: CupertinoSearchTextField(
         placeholder: '닉네임을 입력하세요.',
+        style: const TextStyle(color: Colors.blue),
         onSubmitted: (value) {
           if (_searchFieldTextEditingController.text.isNotEmpty) {
             playerName = value;
             FocusScope.of(context).unfocus();
-            getPlayerData(
+            _pageProvider.getPlayerData(
                 selectedPlatform, playerName, apiKey!, selectedSeason);
-            _show();
+            _pageProvider.show();
           } else {
-            _hide();
+            _pageProvider.hide();
           }
         },
         controller: _searchFieldTextEditingController,
@@ -187,7 +164,7 @@ class _SearchPageState extends State<SearchPage>
     double duoDamage = duoResult.damageDealt / duoResult.roundsPlayed;
     double squadDamage = squadResult.damageDealt / squadResult.roundsPlayed;
     return Visibility(
-      visible: _visibility,
+      visible: _pageProvider.visibility,
       child: Expanded(
         child: ListView(
           children: [
@@ -262,6 +239,13 @@ class _SearchPageState extends State<SearchPage>
     super.build(context);
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
-    return _buildUI();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SearchPageProvider>(
+          create: (_) => SearchPageProvider(),
+        )
+      ],
+      child: _buildUI(),
+    );
   }
 }

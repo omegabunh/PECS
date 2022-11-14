@@ -139,34 +139,34 @@ class DatabaseService {
       print(e);
     }
   }
-}
 
-Future<dynamic> getPlayer(String selectedPlatform, String playerName,
-    String apiKey, int selectedSeason) async {
-  try {
-    Uri url = Uri.parse(
-      "https://api.pubg.com/shards/$selectedPlatform/players?filter[playerNames]=$playerName",
-    );
-    Map<String, String> header = {
-      "Authorization": "Bearer $apiKey",
-      "Accept": "application/vnd.api+json"
-    };
-    var response = await http.get(url, headers: header);
-    switch (response.statusCode) {
-      case 200:
-        var jsonData = response.body;
-        final playerId = jsonDecode(jsonData)['data'][0]['id'];
-        Uri lifeTimeUrl = Uri.parse(
-            "https://api.pubg.com/shards/$selectedPlatform/players/$playerId/seasons/division.bro.official.pc-2018-$selectedSeason?filter[gamepad]=false");
-        var lifeTimeResponse = await http.get(lifeTimeUrl, headers: header);
-        var lifeTimeJsonData = lifeTimeResponse.body;
-        var stats =
-            jsonDecode(lifeTimeJsonData)['data']['attributes']['gameModeStats'];
-        return stats;
-      default:
-        throw Exception(response.reasonPhrase);
+  Future<dynamic> getPlayer(String selectedPlatform, String playerName,
+      String apiKey, int selectedSeason) async {
+    try {
+      Uri url = Uri.parse(
+        "https://api.pubg.com/shards/$selectedPlatform/players?filter[playerNames]=$playerName",
+      );
+      Map<String, String> header = {
+        "Authorization": "Bearer $apiKey",
+        "Accept": "application/vnd.api+json"
+      };
+      var response = await http.get(url, headers: header);
+      switch (response.statusCode) {
+        case 200:
+          var jsonData = response.body;
+          final playerId = jsonDecode(jsonData)['data'][0]['id'];
+          Uri lifeTimeUrl = Uri.parse(
+              "https://api.pubg.com/shards/$selectedPlatform/players/$playerId/seasons/division.bro.official.pc-2018-$selectedSeason?filter[gamepad]=false");
+          var lifeTimeResponse = await http.get(lifeTimeUrl, headers: header);
+          var lifeTimeJsonData = lifeTimeResponse.body;
+          var stats = jsonDecode(lifeTimeJsonData)['data']['attributes']
+              ['gameModeStats'];
+          return stats;
+        default:
+          throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e) {
-    print(e);
   }
 }

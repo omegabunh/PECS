@@ -17,10 +17,12 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   late double _deviceHeight;
   late double _deviceWidth;
+  late ThemeProvider _pageProvider;
 
   Widget _buildUI() {
-    return Consumer<ThemeModel>(
-      builder: (context, ThemeModel themeNotifier, child) {
+    return Builder(
+      builder: (BuildContext context) {
+        _pageProvider = context.watch<ThemeProvider>();
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -56,11 +58,11 @@ class _SettingPageState extends State<SettingPage> {
                       children: [
                         const Text('테마 변경'),
                         Switch.adaptive(
-                          value: themeNotifier.isDark,
+                          value: _pageProvider.isDark,
                           onChanged: (value) {
                             setState(
                               () {
-                                themeNotifier.isDark = value;
+                                _pageProvider.isDark = value;
                               },
                             );
                           },

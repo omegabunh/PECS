@@ -4,8 +4,8 @@ import '../models/theme_preference.dart';
 //Packages
 import 'package:flutter/material.dart';
 
-class ThemeModel extends ChangeNotifier {
-  ThemeModel() {
+class ThemeProvider extends ChangeNotifier {
+  ThemeProvider() {
     _isDark = false;
     _preferences = ThemePreferences();
     getPreferences();
