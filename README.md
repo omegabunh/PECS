@@ -24,13 +24,10 @@ PUBG Esports, Chat and Search
 |:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/55680319/201604894-919b2a87-e0a3-43ee-9eaa-6b0c57bd074d.gif" width="270" height="570">|<img src="https://user-images.githubusercontent.com/55680319/201604644-c973f665-e927-43a6-a766-e93fc5e24dd0.gif" width="270" height="570">|
 |Register|Esports|
-|:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/55680319/201604744-e7a5f27a-636a-4ec9-b03f-296a36cf2307.gif" width="270" height="570">|<img src="https://user-images.githubusercontent.com/55680319/201605362-f6f5b4fd-0e10-4e3c-af25-7bba5f667ba6.gif" width="270" height="570">|
 |Chat|Search|
-|:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/55680319/201605396-a64be791-75bb-4663-adf1-f9cc54ef236d.gif" width="270" height="570">|<img src="https://user-images.githubusercontent.com/55680319/201605543-cc16a6ab-7381-48cf-b86c-ccb729b48ee5.gif" width="270" height="570">|
 |Profile|Theme|
-|:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/55680319/201606778-db72dc22-d8d5-4db0-b9dc-9e8256b25622.gif" width="270" height="570">|<img src="https://user-images.githubusercontent.com/55680319/201606834-ef386ef3-9933-4abf-bc4a-b0ebc8fcea0e.gif" width="270" height="570">|
 
 ## Usage
