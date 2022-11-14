@@ -12,8 +12,8 @@ PUBG Esports, Chat and Search
 
 ## Environment
 
-- Flutter 3.3.3
-- Dart 2.15.1
+- Flutter 3.3.5
+- Dart 2.18.2
 - macOS 13.0 & winodws10 pro
 - VS Code 1.73.1
 - FireBase
