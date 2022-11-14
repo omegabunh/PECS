@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 String intToTimeLeft(num value) {
   num h, m, s;
 

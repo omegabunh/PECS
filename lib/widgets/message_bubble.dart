@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 //Packages
 import 'package:flutter/material.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
@@ -9,7 +7,8 @@ import '../models/chat_message.dart';
 
 class TextMessageBubble extends StatelessWidget {
   const TextMessageBubble(
-      {required this.isOwnMessage,
+      {super.key,
+      required this.isOwnMessage,
       required this.message,
       required this.height,
       required this.width});
@@ -67,7 +66,8 @@ class TextMessageBubble extends StatelessWidget {
 
 class ImageMessageBubble extends StatelessWidget {
   const ImageMessageBubble(
-      {required this.isOwnMessage,
+      {super.key,
+      required this.isOwnMessage,
       required this.message,
       required this.height,
       required this.width});
@@ -88,9 +88,6 @@ class ImageMessageBubble extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: isOwnMessage
-            ? const Color.fromRGBO(204, 255, 204, 1.0)
-            : const Color.fromRGBO(153, 255, 153, 1.0),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,

@@ -50,7 +50,6 @@ class ChatListPageProvider extends ChangeNotifier {
         },
       );
     } catch (e) {
-      print("채팅을 가져오는데 문제가 발생하였습니다.");
       print(e);
     }
   }

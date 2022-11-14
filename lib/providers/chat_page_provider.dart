@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_final_fields, avoid_print, no_leading_underscores_for_local_identifiers
+// ignore_for_file: unused_field, avoid_print
 
 import 'dart:async';
 
@@ -32,14 +32,14 @@ class ChatPageProvider extends ChangeNotifier {
 
   List<ChatMessage>? messages;
 
-  AuthenticationProvider _auth;
-  String _chatID;
+  final AuthenticationProvider _auth;
+  final String _chatID;
   late DatabaseService _db;
   late KeyboardVisibilityController _keyboardVisibilityController;
   late StreamSubscription _keyboardVisibilityStream;
   late MediaService _media;
   String? _message;
-  ScrollController _messagesListViewController;
+  final ScrollController _messagesListViewController;
   late StreamSubscription _messagesStream;
   late NavigationService _navigation;
   late CloudStorageService _storage;
@@ -55,22 +55,22 @@ class ChatPageProvider extends ChangeNotifier {
     return message;
   }
 
-  set message(String _value) {
-    _message = _value;
+  set message(String value) {
+    _message = value;
   }
 
   void listenToMessages() {
     try {
       _messagesStream = _db.streamMessagesForChat(_chatID).listen(
-        (_snapshot) {
-          List<ChatMessage> _messages = _snapshot.docs.map(
-            (_m) {
-              Map<String, dynamic> _messageData =
-                  _m.data() as Map<String, dynamic>;
-              return ChatMessage.fromJSON(_messageData);
+        (snapshot) {
+          List<ChatMessage> messageList = snapshot.docs.map(
+            (m) {
+              Map<String, dynamic> messageData =
+                  m.data() as Map<String, dynamic>;
+              return ChatMessage.fromJSON(messageData);
             },
           ).toList();
-          messages = _messages;
+          messages = messageList;
           notifyListeners();
           WidgetsBinding.instance.addPostFrameCallback(
             (_) {
@@ -83,39 +83,37 @@ class ChatPageProvider extends ChangeNotifier {
         },
       );
     } catch (e) {
-      print("메시지를 가져오는데 문제가 발생하였습니다.");
       print(e);
     }
   }
 
   void sendTextMessage() {
     if (_message != null) {
-      ChatMessage _messageToSend = ChatMessage(
+      ChatMessage messageToSend = ChatMessage(
         content: _message!,
-        type: MessageType.TEXT,
+        type: MessageType.text,
         senderID: _auth.chatUser.uid,
         sentTime: DateTime.now(),
       );
-      _db.addMessageToChat(_chatID, _messageToSend);
+      _db.addMessageToChat(_chatID, messageToSend);
     }
   }
 
   void sendImageMessage() async {
     try {
-      PlatformFile? _file = await _media.pickImageFromLibrary();
-      if (_file != null) {
-        String? _downloadURL = await _storage.saveChatImageToStorage(
-            _chatID, _auth.chatUser.uid, _file);
-        ChatMessage _messageToSend = ChatMessage(
-          content: _downloadURL!,
-          type: MessageType.IMAGE,
+      PlatformFile? file = await _media.pickImageFromLibrary();
+      if (file != null) {
+        String? downloadURL = await _storage.saveChatImageToStorage(
+            _chatID, _auth.chatUser.uid, file);
+        ChatMessage messageToSend = ChatMessage(
+          content: downloadURL!,
+          type: MessageType.image,
           senderID: _auth.chatUser.uid,
           sentTime: DateTime.now(),
         );
-        _db.addMessageToChat(_chatID, _messageToSend);
+        _db.addMessageToChat(_chatID, messageToSend);
       }
     } catch (e) {
-      print("이미지를 보내는데 문제가 발생하였습니다.");
       print(e);
     }
   }

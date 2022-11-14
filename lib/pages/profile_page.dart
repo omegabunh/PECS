@@ -53,18 +53,20 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           Container(
             padding: const EdgeInsets.all(15),
-            child: InkWell(
-              child: const Text(
-                '완료',
-                style: TextStyle(fontSize: 16),
+            child: Center(
+              child: InkWell(
+                child: const Text(
+                  '완료',
+                  style: TextStyle(fontSize: 16),
+                ),
+                onTap: () async {
+                  if (_registerFormKey.currentState!.validate()) {
+                    _registerFormKey.currentState!.save();
+                    await _db.updateUser(uid, email, _name!);
+                    await _auth.logout();
+                  }
+                },
               ),
-              onTap: () async {
-                if (_registerFormKey.currentState!.validate()) {
-                  _registerFormKey.currentState!.save();
-                  await _db.updateUser(uid, email, _name!);
-                  await _auth.logout();
-                }
-              },
             ),
           )
         ],
@@ -115,10 +117,10 @@ class _ProfilePageState extends State<ProfilePage> {
               _name = value;
             });
           },
-          regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣0-9]{2,6}$',
+          regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9|a-z|A-Z]{2,8}$',
           hintText: name,
           obscureText: false,
-          message: '2~6자 이내의 이름을 입력해주십시요.',
+          message: '2~8자 이내의 닉네임을 입력해주십시요.',
           type: TextInputType.text,
         ),
       ),

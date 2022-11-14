@@ -1,11 +1,9 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum MessageType {
-  TEXT,
-  IMAGE,
-  UNKNOWN,
+  text,
+  image,
+  unknown,
 }
 
 class ChatMessage {
@@ -19,13 +17,13 @@ class ChatMessage {
     MessageType messageType;
     switch (json["type"]) {
       case "text":
-        messageType = MessageType.TEXT;
+        messageType = MessageType.text;
         break;
       case "image":
-        messageType = MessageType.IMAGE;
+        messageType = MessageType.image;
         break;
       default:
-        messageType = MessageType.UNKNOWN;
+        messageType = MessageType.unknown;
     }
     return ChatMessage(
       content: json["content"],
@@ -43,10 +41,10 @@ class ChatMessage {
   Map<String, dynamic> toJson() {
     String messageType;
     switch (type) {
-      case MessageType.TEXT:
+      case MessageType.text:
         messageType = "text";
         break;
-      case MessageType.IMAGE:
+      case MessageType.image:
         messageType = "image";
         break;
       default:

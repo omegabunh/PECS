@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 //Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +146,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _sendMessageForm() {
+    // ignore: unused_local_variable
     late String text;
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),

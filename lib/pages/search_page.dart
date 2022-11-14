@@ -2,17 +2,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:provider/provider.dart';
 
 //Services
 import '../services/database_service.dart';
-import '../services/intToTime_service.dart';
+import '../services/time.dart';
 
 //Widgets
 import '../widgets/custom_card.dart';
-
-//Porviders
-import '../providers/authentication_provider.dart';
 
 //Models
 import '../models/player_stats.dart';
@@ -38,7 +34,6 @@ class _SearchPageState extends State<SearchPage>
   PlayerStats soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   PlayerStats squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-  late AuthenticationProvider _auth;
   late double _deviceHeight;
   late double _deviceWidth;
   final TextEditingController _searchFieldTextEditingController =
@@ -77,6 +72,7 @@ class _SearchPageState extends State<SearchPage>
   Widget _buildUI() {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -87,16 +83,6 @@ class _SearchPageState extends State<SearchPage>
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-            ),
-            onPressed: () {
-              _auth.logout();
-            },
-          ),
-        ],
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -276,7 +262,6 @@ class _SearchPageState extends State<SearchPage>
     super.build(context);
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
     return _buildUI();
   }
 }

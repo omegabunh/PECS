@@ -1,15 +1,10 @@
-// ignore_for_file: unused_field
-
 //Packages
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 //Services
 import '../services/database_service.dart';
-import '../services/cloud_storage_service.dart';
-import '../services/navigation_service.dart';
 
 //Widgets
 import '../widgets/custom_input_fields.dart';
@@ -29,15 +24,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   late AuthenticationProvider _auth;
-  late CloudStorageService _cloudStorage;
   late DatabaseService _db;
   late double _deviceHeight;
   late double _deviceWidth;
   String? _email;
   String? _name;
-  late NavigationService _navigation;
   String? _password;
-  PlatformFile? _profileImage;
   final _registerFormKey = GlobalKey<FormState>();
 
   Widget _buildUI() {
@@ -84,10 +76,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   _name = value;
                 });
               },
-              regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣0-9]{2,6}$',
+              regEx: r'^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9|a-z|A-Z]{2,8}$',
               hintText: "Name",
               obscureText: false,
-              message: '2~6자 이내의 이름을 입력해주십시요.',
+              message: '2~8자 이내의 닉네임을 입력해주십시요.',
               type: TextInputType.text,
             ),
             CustomTextFormField(
@@ -123,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _registerButton() {
     return RoundedButton(
-      name: "Register",
+      name: "회원가입",
       height: _deviceHeight * 0.065,
       width: _deviceWidth * 0.65,
       onPressed: () async {
@@ -144,8 +136,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     _auth = Provider.of<AuthenticationProvider>(context);
     _db = GetIt.instance.get<DatabaseService>();
-    _cloudStorage = GetIt.instance.get<CloudStorageService>();
-    _navigation = GetIt.instance.get<NavigationService>();
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return _buildUI();

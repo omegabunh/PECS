@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names, avoid_print
+// ignore_for_file: avoid_print
 
 import 'dart:convert';
 
@@ -9,9 +9,9 @@ import 'package:http/http.dart' as http;
 //Models
 import '../models/chat_message.dart';
 
-const String USER_COLLECTION = "Users";
-const String CHAT_COLLECTION = "Chats";
-const String MESSAGES_COLLECTION = "Messages";
+const String userCollection = "Users";
+const String chatCollection = "Chats";
+const String messagesCollection = "Messages";
 
 class DatabaseService {
   DatabaseService();
@@ -20,7 +20,7 @@ class DatabaseService {
 
   Future<void> createUser(String uid, String email, String name) async {
     try {
-      await _db.collection(USER_COLLECTION).doc(uid).set(
+      await _db.collection(userCollection).doc(uid).set(
         {
           "email": email,
           "name": name,
@@ -33,7 +33,7 @@ class DatabaseService {
 
   Future<void> updateUser(String uid, String email, String name) async {
     try {
-      await _db.collection(USER_COLLECTION).doc(uid).set(
+      await _db.collection(userCollection).doc(uid).set(
         {
           "email": email,
           "name": name,
@@ -45,11 +45,11 @@ class DatabaseService {
   }
 
   Future<DocumentSnapshot> getUser(String uid) {
-    return _db.collection(USER_COLLECTION).doc(uid).get();
+    return _db.collection(userCollection).doc(uid).get();
   }
 
   Future<QuerySnapshot> getUsers({String? name}) {
-    Query query = _db.collection(USER_COLLECTION);
+    Query query = _db.collection(userCollection);
     if (name != null) {
       query = query
           .where("name", isGreaterThanOrEqualTo: name)
@@ -59,7 +59,7 @@ class DatabaseService {
   }
 
   Future<QuerySnapshot> getChatList({String? roomName}) {
-    Query query = _db.collection(CHAT_COLLECTION);
+    Query query = _db.collection(chatCollection);
     if (roomName != null) {
       query = query
           .where("roomName", isGreaterThanOrEqualTo: roomName)
@@ -69,21 +69,21 @@ class DatabaseService {
   }
 
   Future<DocumentSnapshot> getChatRoom(String uid) {
-    return _db.collection(CHAT_COLLECTION).doc(uid).get();
+    return _db.collection(chatCollection).doc(uid).get();
   }
 
   Stream<QuerySnapshot> getChatsForUser(String uid) {
     return _db
-        .collection(CHAT_COLLECTION)
+        .collection(chatCollection)
         .where('members', arrayContains: uid)
         .snapshots();
   }
 
   Future<QuerySnapshot> getLastMessageForChat(String chatID) {
     return _db
-        .collection(CHAT_COLLECTION)
+        .collection(chatCollection)
         .doc(chatID)
-        .collection(MESSAGES_COLLECTION)
+        .collection(messagesCollection)
         .orderBy("sent_time", descending: true)
         .limit(1)
         .get();
@@ -91,9 +91,9 @@ class DatabaseService {
 
   Stream<QuerySnapshot> streamMessagesForChat(String chatID) {
     return _db
-        .collection(CHAT_COLLECTION)
+        .collection(chatCollection)
         .doc(chatID)
-        .collection(MESSAGES_COLLECTION)
+        .collection(messagesCollection)
         .orderBy("sent_time", descending: false)
         .snapshots();
   }
@@ -101,9 +101,9 @@ class DatabaseService {
   Future<void> addMessageToChat(String chatID, ChatMessage message) async {
     try {
       await _db
-          .collection(CHAT_COLLECTION)
+          .collection(chatCollection)
           .doc(chatID)
-          .collection(MESSAGES_COLLECTION)
+          .collection(messagesCollection)
           .add(
             message.toJson(),
           );
@@ -114,7 +114,7 @@ class DatabaseService {
 
   Future<void> deleteChat(String chatID) async {
     try {
-      await _db.collection(CHAT_COLLECTION).doc(chatID).delete();
+      await _db.collection(chatCollection).doc(chatID).delete();
     } catch (e) {
       print(e);
     }
@@ -122,7 +122,7 @@ class DatabaseService {
 
   Future<void> leaveChat(String chatID, String uid) async {
     try {
-      await _db.collection(CHAT_COLLECTION).doc(chatID).update({
+      await _db.collection(chatCollection).doc(chatID).update({
         "members": FieldValue.arrayRemove([uid]),
       });
     } catch (e) {
@@ -132,7 +132,7 @@ class DatabaseService {
 
   Future<void> addMemberToRoom(String roomId, String uid) async {
     try {
-      await _db.collection(CHAT_COLLECTION).doc(roomId).update({
+      await _db.collection(chatCollection).doc(roomId).update({
         "members": FieldValue.arrayUnion([uid]),
       });
     } catch (e) {
@@ -152,7 +152,6 @@ Future<dynamic> getPlayer(String selectedPlatform, String playerName,
       "Accept": "application/vnd.api+json"
     };
     var response = await http.get(url, headers: header);
-    print('Response status: ${response.statusCode}');
     switch (response.statusCode) {
       case 200:
         var jsonData = response.body;

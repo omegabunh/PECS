@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable
-
 //Packages
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  const CustomTextFormField({
     Key? key,
     required this.onSaved,
     required this.regEx,
@@ -47,7 +45,7 @@ class CustomTextFormField extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField(
+  const CustomTextField(
       {Key? key,
       required this.onEditingComplete,
       required this.hintText,
@@ -58,7 +56,7 @@ class CustomTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String hintText;
-  IconData? icon;
+  final IconData? icon;
   final bool obscureText;
   final Function(String) onEditingComplete;
 

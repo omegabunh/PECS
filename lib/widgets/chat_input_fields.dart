@@ -1,10 +1,9 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 //Packages
 import 'package:flutter/material.dart';
 
 class ChatTextFormField extends StatelessWidget {
   const ChatTextFormField({
+    super.key,
     required this.onSaved,
     required this.regEx,
     required this.message,

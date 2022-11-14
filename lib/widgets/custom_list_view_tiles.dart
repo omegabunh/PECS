@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
-
 //Packages
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -13,7 +11,7 @@ import '../models/chat_user.dart';
 import '../models/chat_message.dart';
 
 class CustomListViewTile extends StatelessWidget {
-  CustomListViewTile({
+  const CustomListViewTile({
     Key? key,
     required this.height,
     required this.title,
@@ -55,7 +53,7 @@ class CustomListViewTile extends StatelessWidget {
 }
 
 class CustomListViewTileWithActivity extends StatelessWidget {
-  CustomListViewTileWithActivity({
+  const CustomListViewTileWithActivity({
     Key? key,
     required this.height,
     required this.title,
@@ -88,7 +86,7 @@ class CustomListViewTileWithActivity extends StatelessWidget {
 }
 
 class CustomChatListViewTile extends StatelessWidget {
-  CustomChatListViewTile({
+  const CustomChatListViewTile({
     Key? key,
     required this.width,
     required this.deviceHeight,
@@ -137,7 +135,7 @@ class CustomChatListViewTile extends StatelessWidget {
               SizedBox(
                 width: width * 0.01,
               ),
-              message.type == MessageType.TEXT
+              message.type == MessageType.text
                   ? TextMessageBubble(
                       isOwnMessage: isOwnMessage,
                       message: message,
@@ -167,7 +165,7 @@ class CustomChatListViewTile extends StatelessWidget {
 }
 
 class CustomProfileTile extends StatelessWidget {
-  CustomProfileTile(
+  const CustomProfileTile(
       {Key? key,
       required this.height,
       required this.title,

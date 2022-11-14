@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//Pages
-import '../pages/user_page.dart';
-
 //Provider
 import '../providers/theme_provider.dart';
 

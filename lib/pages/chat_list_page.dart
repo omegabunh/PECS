@@ -1,4 +1,3 @@
-// ignore_for_file: unused_field
 //Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,11 +8,7 @@ import '../providers/authentication_provider.dart';
 import '../providers/chatlist_page_provider.dart';
 
 //Services
-import '../services/navigation_service.dart';
 import '../services/database_service.dart';
-
-//Pages
-import '../pages/chats_page.dart';
 
 //Widgets
 import '../widgets/custom_list_view_tiles.dart';
@@ -35,7 +30,6 @@ class _ChatListPageState extends State<ChatListPage> {
   late DatabaseService _db;
   late double _deviceHeight;
   late double _deviceWidth;
-  late NavigationService _navigation;
   late ChatListPageProvider _pageProvider;
 
   Widget _buildUI() {
@@ -43,6 +37,7 @@ class _ChatListPageState extends State<ChatListPage> {
       _pageProvider = context.watch<ChatListPageProvider>();
       return Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           title: const Text(
@@ -142,7 +137,7 @@ class _ChatListPageState extends State<ChatListPage> {
     _deviceWidth = MediaQuery.of(context).size.width;
     _db = GetIt.instance.get<DatabaseService>();
     _auth = Provider.of<AuthenticationProvider>(context);
-    _navigation = GetIt.instance.get<NavigationService>();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ChatListPageProvider>(

@@ -30,11 +30,20 @@ class ChatsPageProvider extends ChangeNotifier {
   final AuthenticationProvider _auth;
   late StreamSubscription _chatsStream;
   late DatabaseService _db;
+  bool _disposed = false;
 
   @override
   void dispose() {
+    _disposed = true;
     _chatsStream.cancel();
     super.dispose();
+  }
+
+  @override
+  notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
   }
 
   void getChats({String? roomName}) async {
@@ -87,7 +96,6 @@ class ChatsPageProvider extends ChangeNotifier {
         notifyListeners();
       });
     } catch (e) {
-      print("채팅을 가져오는데 문제가 발생하였습니다.");
       print(e);
     }
   }

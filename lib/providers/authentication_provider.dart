@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, body_might_complete_normally_nullable
+// ignore_for_file: avoid_print
 
 //Packages
 import 'package:flutter/material.dart';
@@ -127,6 +127,7 @@ class AuthenticationProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<void> logout() async {

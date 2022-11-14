@@ -48,41 +48,53 @@ class _ForgotPasswordPage extends State<ForgotPasswordPage> {
                   ),
                 ),
               ),
-              Flexible(
-                flex: 1,
-                child: CustomTextFormField(
-                  onSaved: (value) {
-                    setState(() {
-                      _email = value;
-                    });
-                  },
-                  regEx:
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`₩{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                  hintText: 'Email',
-                  obscureText: false,
-                  message: '이메일을 입력해주십시요.',
-                  type: TextInputType.emailAddress,
-                ),
-              ),
+              _emailForm(),
               const SizedBox(height: 20),
-              TextButton(
-                child: const Text('이메일 전송'),
-                onPressed: () {
-                  if (_loginFormKey.currentState!.validate()) {
-                    _loginFormKey.currentState!.save();
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    _auth.resetPassword(_email!);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('로그인'),
-                onPressed: () => _navigation.navigateToRoute('/login'),
-              )
+              _sendEmailButton(),
+              _loginButton(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _emailForm() {
+    return Flexible(
+      flex: 1,
+      child: CustomTextFormField(
+        onSaved: (value) {
+          setState(() {
+            _email = value;
+          });
+        },
+        regEx:
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`₩{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+        hintText: 'Email',
+        obscureText: false,
+        message: '이메일을 입력해주십시요.',
+        type: TextInputType.emailAddress,
+      ),
+    );
+  }
+
+  Widget _sendEmailButton() {
+    return TextButton(
+      child: const Text('이메일 전송'),
+      onPressed: () {
+        if (_loginFormKey.currentState!.validate()) {
+          _loginFormKey.currentState!.save();
+          FocusScope.of(context).requestFocus(FocusNode());
+          _auth.resetPassword(_email!);
+        }
+      },
+    );
+  }
+
+  Widget _loginButton() {
+    return TextButton(
+      child: const Text('로그인'),
+      onPressed: () => _navigation.navigateToRoute('/login'),
     );
   }
 

@@ -18,7 +18,7 @@ import './pages/splash_page.dart';
 import './pages/login_page.dart';
 import './pages/register_page.dart';
 import './pages/home_page.dart';
-import './pages/forgat_password_page.dart';
+import './pages/forgot_password_page.dart';
 
 //Models
 import './models/theme.dart';

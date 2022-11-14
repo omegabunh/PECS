@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 //Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +43,7 @@ class _ChatsPageState extends State<ChatsPage> {
       _pageProvider = context.watch<ChatsPageProvider>();
       return Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -126,10 +125,11 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _chatTile(Chat chat) {
+    // ignore: unused_local_variable
     List<ChatUser> recepients = chat.recepients();
     String subtitleText = "";
     if (chat.messages.isNotEmpty) {
-      subtitleText = chat.messages.first.type != MessageType.TEXT
+      subtitleText = chat.messages.first.type != MessageType.text
           ? "사진"
           : chat.messages.first.content;
     }

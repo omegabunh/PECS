@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field
-
 //Packages
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -34,12 +32,8 @@ class _UserPageState extends State<UserPage> {
   late String uid;
 
   late AuthenticationProvider _auth;
-  late CloudStorageService _cloudStorage;
-  late DatabaseService _db;
   late double _deviceHeight;
   late double _deviceWidth;
-  String? _name;
-  final _registerFormKey = GlobalKey<FormState>();
 
   Widget _buildUI() {
     uid = _auth.chatUser.uid;
@@ -50,6 +44,7 @@ class _UserPageState extends State<UserPage> {
       builder: (BuildContext context) {
         return Scaffold(
           appBar: AppBar(
+            centerTitle: false,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -169,8 +164,6 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     _auth = Provider.of<AuthenticationProvider>(context);
-    _db = GetIt.instance.get<DatabaseService>();
-    _cloudStorage = GetIt.instance.get<CloudStorageService>();
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return _buildUI();
