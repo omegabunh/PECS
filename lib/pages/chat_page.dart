@@ -70,28 +70,24 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ),
           extendBodyBehindAppBar: true,
-          body: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: _deviceWidth * 0.03,
-            ),
-            height: _deviceHeight,
-            width: _deviceWidth,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _messagesListView(),
-                        _sendMessageForm(),
-                      ],
-                    ),
-                  ),
+          body: Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: _deviceWidth * 0.03,
                 ),
-              ],
+                height: _deviceHeight,
+                width: _deviceWidth,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _messagesListView(),
+                    _sendMessageForm(),
+                  ],
+                ),
+              ),
             ),
           ),
         );
@@ -130,11 +126,14 @@ class _ChatPageState extends State<ChatPage> {
           ),
         );
       } else {
-        return const Align(
-          alignment: Alignment.center,
-          child: Text(
-            "만나서 반가워요!",
-            style: TextStyle(color: Colors.white),
+        return const Flexible(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              "만나서 반가워요!",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         );
       }
