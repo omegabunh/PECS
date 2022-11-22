@@ -44,12 +44,20 @@ class SearchPageProvider extends ChangeNotifier {
     try {
       var stats = await _db.getPlayer(
           selectedPlatform, playerName, apiKey, selectedSeason);
-      PlayerStats soloStats = PlayerStats.fromJson(stats['solo']);
-      PlayerStats duoStats = PlayerStats.fromJson(stats['duo']);
-      PlayerStats squadStats = PlayerStats.fromJson(stats['squad']);
-      soloResult = soloStats;
-      duoResult = duoStats;
-      squadResult = squadStats;
+      if (stats != null) {
+        PlayerStats soloStats = PlayerStats.fromJson(stats['solo']);
+        PlayerStats duoStats = PlayerStats.fromJson(stats['duo']);
+        PlayerStats squadStats = PlayerStats.fromJson(stats['squad']);
+        soloResult = soloStats;
+        duoResult = duoStats;
+        squadResult = squadStats;
+      } else {
+        duoResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        soloResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        squadResult = PlayerStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        hide();
+      }
+
       notifyListeners();
     } catch (e) {
       print(e);
